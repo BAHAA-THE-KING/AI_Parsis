@@ -5,8 +5,8 @@ public class Logic {
         Board initialBoard = new Board();
         Node root = new Node(null, initialBoard);
         humanTurn(root);
-        List<Move> moves = Structure.throwShells();
-        System.out.println(moves);
+
+        Structure.print(initialBoard);
     }
 
     public static void humanTurn(Node node) {

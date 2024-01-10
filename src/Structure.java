@@ -6,7 +6,10 @@ import java.util.Random;
 import java.util.List;
 
 public class Structure {
-    void print(Board board) {
+
+    
+
+    static void print(Board board) {
         char[][] chars = new char[19][19];
         for (int id : Board.pathComputer) {
             Position pos = new Position(id);
