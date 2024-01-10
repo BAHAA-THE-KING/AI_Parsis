@@ -9,3 +9,4 @@ public class Move {
         this.prob = prob;
     }
 }
+
