@@ -67,4 +67,8 @@ public class Board {
         this.piecesHuman = Arrays.copyOf(piecesHuman, 4);
         this.piecesComputer = Arrays.copyOf(piecesComputer, 4);
     }
+
+    public boolean isSafe(int id){
+        return Arrays.asList(safeCells).contains(id);
+    }
 }
