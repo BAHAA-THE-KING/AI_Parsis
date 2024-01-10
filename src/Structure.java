@@ -43,7 +43,7 @@ public class Structure {
         return newNodes;
     }
 
-     public Board applyMove(Board board,int pieceIndex,Move move,char player) {
+     public static Board applyMove(Board board,int pieceIndex,Move move,char player) {
         Board copyBoard = new Board(board);
         if(player=='c'){
             copyBoard.piecesComputer[pieceIndex]+=move.steps;
@@ -99,5 +99,22 @@ public class Structure {
         }
         return moves;
 
+    }
+
+    public static boolean isFinal(Node node){
+        return isWinner('c',node)||isWinner('h',node);
+    }
+
+    public static boolean isWinner(char player,Node node){
+        Board board = node.board;
+        int[]pieces=player=='h'?board.piecesHuman:board.piecesComputer;
+        int[]path=player=='h'?Board.pathHuman:Board.pathComputer;
+        int finishLineId=player=='h'?199:161;
+        for(int piece:pieces){
+            if(path[piece]!=finishLineId){
+                return false;
+            }
+        }
+        return true;
     }
 }
