@@ -234,23 +234,13 @@ public class Board {
         piecesComputer[3] = -1;
     }
 
-    public Board(int[] piecesHuman, int[] piecesComputer) {
-        this.piecesHuman = Arrays.copyOf(piecesHuman, 4);
-        this.piecesComputer = Arrays.copyOf(piecesComputer, 4);
+    public Board(Board board) {
+        this.piecesHuman = Arrays.copyOf(board.piecesHuman, 4);
+        this.piecesComputer = Arrays.copyOf(board.piecesComputer, 4);
     }
 
     public boolean isSafe(int id){
         return Arrays.asList(safeCells).contains(id);
     }
-    public boolean canMoveTo(char player, int block_id){
-        if(isSafe(block_id)){
-            int[] path = (player==H)?pathComputer:pathHuman;
-            int[] pieces = (player==H)?piecesComputer:piecesHuman;
-            for(int piece:pieces){
-                if(path[piece]==block_id)
-                    return false;
-            }
-        }
-        return true;
-    }
+
 }

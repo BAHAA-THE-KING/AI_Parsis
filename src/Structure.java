@@ -3,23 +3,59 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import java.util.List;
+
 public class Structure {
     void print(Board board) {
         //TODO fill me
     }
 
-    void getNextStates(Board board) {
-        //TODO fill me
+    void getNextStates(Node node, List<Move> moves, char player) {
+        Board board = node.board;
+        int[]pieces = player=='h'?board.piecesHuman:board.piecesComputer;
+        List<Node> newNodes=new ArrayList<>();
+        for(Move move:moves){
+            for(int pieceIndex=0;pieceIndex<4;pieceIndex++){
+                int piece = pieces[pieceIndex];
+                if(!move.isKhal() && piece==-1){
+                    //piece not in map, and the move is not a khal
+                    continue;
+                }
+                if(canMove(board,player,pieceIndex,move)){
+                    Board copyBoard=applyMove(board,pieceIndex,move,player);
+                    newNodes.add(new Node(node,copyBoard));
+                }
+            }
+        }
     }
 
-    void applyMove(Board board) {
-        //TODO fill me
+     public Board applyMove(Board board,int pieceIndex,Move move,char player) {
+        Board copyBoard = new Board(board);
+        if(player=='c'){
+            copyBoard.piecesComputer[pieceIndex]+=move.steps;
+        }else{
+            copyBoard.piecesHuman[pieceIndex]+=move.steps;
+        }
+        return copyBoard;
     }
-
-    void canMove(Board board) {
-
+    public boolean canMove(Board board,char player,int pieceIndex,Move move){
+        int[] path = (player==Board.H)?Board.pathComputer:Board.pathHuman;
+        int[] pieces = (player==Board.H)?board.piecesComputer:board.piecesHuman;
+        int pathIndex= pieces[pieceIndex];
+        int nextPathIndex=pathIndex+move.steps;
+        if(nextPathIndex>83){
+            //out of bounds
+            return false;
+        }
+        int block_id = path[nextPathIndex];
+        if(board.isSafe(block_id)){
+            for(int piece:pieces){
+                if(path[piece]==block_id)
+                    return false;
+            }
+        }
+        return true;
     }
-
     public static List<Move> throwShells() {
         List<Move> moves = new ArrayList<>();
         int ones = 0;
