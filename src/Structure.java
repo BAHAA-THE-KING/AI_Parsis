@@ -14,4 +14,5 @@ public class Structure {
     void canMove(Board board) {
         //TODO fill me
     }
+
 }
