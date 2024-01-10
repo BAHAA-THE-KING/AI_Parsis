@@ -155,4 +155,9 @@ public class Structure {
         }
         return true;
     }
+
+    static float evaluate(Board board) {
+        //TODO fill me please
+        return 0f;
+    }
 }
