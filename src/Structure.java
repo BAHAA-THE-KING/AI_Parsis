@@ -10,7 +10,7 @@ public class Structure {
         //TODO fill me
     }
 
-    void getNextStates(Node node, List<Move> moves, char player) {
+    List<Node> getNextStates(Node node, List<Move> moves, char player) {
         Board board = node.board;
         int[]pieces = player=='h'?board.piecesHuman:board.piecesComputer;
         List<Node> newNodes=new ArrayList<>();
@@ -27,6 +27,20 @@ public class Structure {
                 }
             }
         }
+        for(Move move:moves.reversed()){
+            for(int pieceIndex=0;pieceIndex<4;pieceIndex++){
+                int piece = pieces[pieceIndex];
+                if(!move.isKhal() && piece==-1){
+                    //piece not in map, and the move is not a khal
+                    continue;
+                }
+                if(canMove(board,player,pieceIndex,move)){
+                    Board copyBoard=applyMove(board,pieceIndex,move,player);
+                    newNodes.add(new Node(node,copyBoard));
+                }
+            }
+        }
+        return newNodes;
     }
 
      public Board applyMove(Board board,int pieceIndex,Move move,char player) {
