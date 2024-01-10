@@ -6,8 +6,60 @@ public class Board {
     static int[] safeCells = new int[8];
 
     static {
-        pathHuman[0] = 142;
-        //TODO Initialize pathHuman (starts from 142 and goes up, finishes at 161), border path direction is anti-clockwise
+        pathHuman[0] = 218;
+        pathHuman[1] = 237;
+        pathHuman[2] = 256;
+        pathHuman[3] = 275;
+        pathHuman[4] = 294;
+        pathHuman[5] = 313;
+        pathHuman[6] = 332;
+        pathHuman[7] = 351;
+        pathHuman[8] = 352;
+        pathHuman[9] = 333;
+        pathHuman[10] = 314;
+        pathHuman[11] = 295;
+        pathHuman[12] = 276;
+        pathHuman[13] = 257;
+        pathHuman[14] = 238;
+        pathHuman[15] = 219;
+        pathHuman[16] = 201;
+        pathHuman[17] = 202;
+        pathHuman[18] = 203;
+        pathHuman[19] = 204;
+        pathHuman[20] = 205;
+        pathHuman[21] = 206;
+        pathHuman[22] = 207;
+        pathHuman[23] = 208;
+        pathHuman[24] = 189;
+        pathHuman[25] = 170;
+        pathHuman[26] = 169;
+        pathHuman[27] = 168;
+        pathHuman[28] = 167;
+        pathHuman[29] = 166;
+        pathHuman[30] = 165;
+        pathHuman[31] = 164;
+        pathHuman[32] = 163;
+        pathHuman[33] = 143;
+        pathHuman[34] = 124;
+        pathHuman[35] = 105;
+        pathHuman[36] = 86;
+        pathHuman[37] = 67;
+        pathHuman[38] = 48;
+        pathHuman[39] = 29;
+        pathHuman[40] = 10;
+        pathHuman[41] = 9;
+        pathHuman[42] = 8;
+        pathHuman[43] = 27;
+        pathHuman[44] = 46;
+        pathHuman[45] = 65;
+        pathHuman[46] = 84;
+        pathHuman[47] = 103;
+        pathHuman[48] = 122;
+        pathHuman[49] = 141;
+
+
+
+
 
         pathComputer[0] = 218;
         //TODO Initialize pathComputer (starts from 218 and goes down, finishes at 199), border path direction is anti-clockwise
