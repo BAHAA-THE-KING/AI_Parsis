@@ -1,10 +1,12 @@
+import java.util.List;
+
 public class Logic {
     public static void main(String[] args) {
         Board initialBoard = new Board();
         Node root = new Node(null, initialBoard);
         humanTurn(root);
-
-        System.out.println(new Position(29));
+        List<Move> moves = Structure.throwShells();
+        System.out.println(moves);
     }
 
     public static void humanTurn(Node node) {

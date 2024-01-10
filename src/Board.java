@@ -9,8 +9,9 @@ public class Board {
     public final static char H='h',C='c';
 
     static {
+        //init human path
         pathHuman[0] = 218;
-         pathHuman[1] = 237;
+        pathHuman[1] = 237;
         pathHuman[2] = 256;
         pathHuman[3] = 275;
         pathHuman[4] = 294;
@@ -94,8 +95,7 @@ public class Board {
         pathHuman[82] = 218;
         pathHuman[83] = 199;
 
-      
-
+        //init computer path
         pathComputer[0] = 142;
         pathComputer[1] = 123;
         pathComputer[2] = 104;
@@ -182,11 +182,7 @@ public class Board {
         pathComputer[83] = 161;
 
        
-
-
-
-
-
+        //init safe cells
         safeCells[0] = 46;
         safeCells[1] = 48;
         safeCells[2] = 154;
