@@ -241,4 +241,5 @@ public class Board {
     public boolean isSafe(int id){
         return Arrays.asList(safeCells).contains(id);
     }
+
 }
