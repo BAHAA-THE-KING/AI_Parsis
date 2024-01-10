@@ -7,7 +7,33 @@ import java.util.List;
 
 public class Structure {
     void print(Board board) {
-        //TODO fill me
+        char[][] chars = new char[19][19];
+        for (int id : Board.pathComputer) {
+            Position pos = new Position(id);
+            chars[pos.y][pos.x] = 'o';
+        }
+        for (int id : Board.pathHuman) {
+            Position pos = new Position(id);
+            chars[pos.y][pos.x] = 'o';
+        }
+        for (int id : Board.safeCells) {
+            Position pos = new Position(id);
+            chars[pos.y][pos.x] = 'X';
+        }
+        for (int id : board.piecesComputer) {
+            Position pos = new Position(id);
+            chars[pos.y][pos.x] = 'C';
+        }
+        for (int id : board.piecesHuman) {
+            Position pos = new Position(id);
+            chars[pos.y][pos.x] = 'H';
+        }
+        for (int i = 0; i < 19; i++) {
+            for (int j = 0; j < 19; j++) {
+                System.out.print((chars[i][j] == '\u0000') ? ' ' : chars[i][j]);
+            }
+            System.out.println("");
+        }
     }
 
     List<Node> getNextStates(Node node, List<Move> moves, char player) {
