@@ -4,6 +4,7 @@ public class Board {
     static int[] pathHuman = new int[84];
     static int[] pathComputer = new int[84];
     static int[] safeCells = new int[8];
+    public final static char H='h',C='c';
 
     static {
         pathHuman[0] = 142;
@@ -70,5 +71,16 @@ public class Board {
 
     public boolean isSafe(int id){
         return Arrays.asList(safeCells).contains(id);
+    }
+    public boolean canMoveTo(char player, int block_id){
+        if(isSafe(block_id)){
+            int[] path = (player==H)?pathComputer:pathHuman;
+            int[] pieces = (player==H)?piecesComputer:piecesHuman;
+            for(int piece:pieces){
+                if(path[piece]==block_id)
+                    return false;
+            }
+        }
+        return true;
     }
 }
