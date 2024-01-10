@@ -9,7 +9,7 @@ public class Board {
 
     static {
         pathHuman[0] = 218;
-         pathHuman[1] = 237;
+        pathHuman[1] = 237;
         pathHuman[2] = 256;
         pathHuman[3] = 275;
         pathHuman[4] = 294;
@@ -245,4 +245,5 @@ public class Board {
     public boolean isSafe(int id){
         return Arrays.asList(safeCells).contains(id);
     }
+
 }

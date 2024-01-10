@@ -1,3 +1,4 @@
+import java.util.*;
 public class Move {
     int steps;
     String name;
@@ -7,5 +8,16 @@ public class Move {
         this.steps = steps;
         this.name = name;
         this.prob = prob;
+    }
+
+
+    public boolean isKhal() {
+        return steps == 1;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+
     }
 }
