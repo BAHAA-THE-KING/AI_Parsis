@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.List;
 
 public class Structure {
-    void print(Board board) {
+    static void print(Board board) {
         char[][] chars = new char[19][19];
         for (int id : Board.pathComputer) {
             Position pos = new Position(id);
@@ -21,10 +21,12 @@ public class Structure {
             chars[pos.y][pos.x] = 'X';
         }
         for (int id : board.piecesComputer) {
+            if (id == -1) continue;
             Position pos = new Position(id);
             chars[pos.y][pos.x] = 'C';
         }
         for (int id : board.piecesHuman) {
+            if (id == -1) continue;
             Position pos = new Position(id);
             chars[pos.y][pos.x] = 'H';
         }
@@ -36,7 +38,7 @@ public class Structure {
         }
     }
 
-    List<Node> getNextStates(Node node, List<Move> moves, char player) {
+    static List<Node> getNextStates(Node node, List<Move> moves, char player) {
         Board board = node.board;
         int[]pieces = player=='h'?board.piecesHuman:board.piecesComputer;
         List<Node> newNodes=new ArrayList<>();
@@ -69,16 +71,26 @@ public class Structure {
         return newNodes;
     }
 
-     public static Board applyMove(Board board,int pieceIndex,Move move,char player) {
+    static Board applyMove(Board board, int pieceIndex, Move move, char player) {
         Board copyBoard = new Board(board);
-        if(player=='c'){
-            copyBoard.piecesComputer[pieceIndex]+=move.steps;
-        }else{
-            copyBoard.piecesHuman[pieceIndex]+=move.steps;
+        if (player == 'c') {
+            copyBoard.piecesComputer[pieceIndex] += move.steps;
+            for (int i = 0; i < 4; i++) {
+                if (copyBoard.piecesHuman[i] == copyBoard.piecesComputer[pieceIndex]) {
+                    copyBoard.piecesHuman[i] = -1;
+                }
+            }
+        } else {
+            copyBoard.piecesHuman[pieceIndex] += move.steps;
+            for (int i = 0; i < 4; i++) {
+                if (copyBoard.piecesComputer[i] == copyBoard.piecesHuman[pieceIndex]) {
+                    copyBoard.piecesComputer[i] = -1;
+                }
+            }
         }
         return copyBoard;
     }
-    public boolean canMove(Board board,char player,int pieceIndex,Move move){
+    static boolean canMove(Board board,char player,int pieceIndex,Move move){
         int[] path = (player==Board.H)?Board.pathComputer:Board.pathHuman;
         int[] pieces = (player==Board.H)?board.piecesComputer:board.piecesHuman;
         int pathIndex= pieces[pieceIndex];
@@ -96,13 +108,13 @@ public class Structure {
         }
         return true;
     }
-    public static List<Move> throwShells() {
+    static List<Move> throwShells() {
         List<Move> moves = new ArrayList<>();
         int ones = 0;
         Random random = new Random();
         for (int i = 0; i < 6; i++) {
-            int possible = random.nextInt(100) + 1;
-            if (possible <= 40) {
+            float possible = random.nextFloat();
+            if (possible <= 0.4) {
                 ones++;
             }
         }
@@ -127,11 +139,11 @@ public class Structure {
 
     }
 
-    public static boolean isFinal(Node node){
+    static boolean isFinal(Node node){
         return isWinner('c',node)||isWinner('h',node);
     }
 
-    public static boolean isWinner(char player,Node node){
+    static boolean isWinner(char player,Node node){
         Board board = node.board;
         int[]pieces=player=='h'?board.piecesHuman:board.piecesComputer;
         int[]path=player=='h'?Board.pathHuman:Board.pathComputer;
