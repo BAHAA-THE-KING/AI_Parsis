@@ -1,10 +1,10 @@
 public class Logic {
     public static void main(String[] args) {
         Board initialBoard = new Board();
-        int a=initialBoard.toOtherPlayerIndex(11,Board.C);
-        System.out.println(a);
-//        Node root = new Node(null, initialBoard);
-//        humanTurn(root);
+        Node root = new Node(null, initialBoard);
+        humanTurn(root);
+
+        System.out.println(new Position(29));
     }
 
     public static void humanTurn(Node node) {

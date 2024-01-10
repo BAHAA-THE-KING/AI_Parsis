@@ -5,5 +5,7 @@ public class Node {
     public Node(Node parent, Board board) {
         this.parent = parent;
         this.board = board;
+
+
     }
 }
