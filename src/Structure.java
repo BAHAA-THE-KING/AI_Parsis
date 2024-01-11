@@ -206,14 +206,16 @@ public class Structure {
         return copyBoard;
     }
     static boolean canMove(Board board,char player,int pieceIndex,Move move){
-        int[] path = (player==Board.H)?Board.pathComputer:Board.pathHuman;
-        int[] pieces = (player==Board.H)?board.piecesComputer:board.piecesHuman;
+        int[] path = (player==Board.C)?Board.pathComputer:Board.pathHuman;
+        int[] pieces = (player==Board.C)?board.piecesComputer:board.piecesHuman;
         int pathIndex= pieces[pieceIndex];
         int nextPathIndex=pathIndex+move.steps;
         if(nextPathIndex>83){
             //out of bounds
             return false;
         }
+        path = (player==Board.H)?Board.pathComputer:Board.pathHuman;
+        pieces = (player==Board.H)?board.piecesComputer:board.piecesHuman;
         int block_id = path[nextPathIndex];
         if(board.isSafe(block_id)){
             for(int piece:pieces){
@@ -255,10 +257,12 @@ public class Structure {
     }
 
     static boolean isFinal(Node node){
+        //Tested and working
         return isWinner('c',node)||isWinner('h',node);
     }
 
     static boolean isWinner(char player,Node node){
+        //Tested and working
         Board board = node.board;
         int[]pieces=player=='h'?board.piecesHuman:board.piecesComputer;
         int[]path=player=='h'?Board.pathHuman:Board.pathComputer;
