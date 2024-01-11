@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Structure {
 
-    private static String getSymbol(char player, int piece){
+    public static String getSymbol(char player, int piece){
 
         if(player == 'h'){
             switch (piece){
@@ -206,7 +206,7 @@ public class Structure {
         return copyBoard;
     }
     static boolean canMove(Board board,char player,int pieceIndex,Move move){
-        int[] path = (player==Board.C)?Board.pathComputer:Board.pathHuman;
+        int[] path;
         int[] pieces = (player==Board.C)?board.piecesComputer:board.piecesHuman;
         int pathIndex= pieces[pieceIndex];
         int nextPathIndex=pathIndex+move.steps;
