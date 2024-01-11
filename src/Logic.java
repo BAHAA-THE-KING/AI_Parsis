@@ -8,7 +8,7 @@ public class Logic {
         Scanner scanner = new Scanner(System.in);
         Board initialBoard = new Board();
         Node root = new Node(null, initialBoard);
-        Structure.Board2array(initialBoard);
+        Structure.print(initialBoard);
         humanTurn(root , scanner);
 
 
@@ -38,7 +38,7 @@ public class Logic {
             System.out.print("Choose piece to move : ");
             int selectedPiece = scanner.nextInt() - 1;
             node.board= Structure.applyMove(node.board , selectedPiece , humanSelectedMove , 'h');
-            Structure.Board2array(node.board);
+            Structure.print(node.board);
         }
         System.out.println("Your turn end");
         //computerTurn(node);

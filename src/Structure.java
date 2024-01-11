@@ -216,17 +216,19 @@ public class Structure {
         Board copyBoard = new Board(board);
         if (player == 'c') {
             copyBoard.piecesComputer[pieceIndex] += move.steps;
+            int computer = Board.pathComputer[copyBoard.piecesComputer[pieceIndex]];
             for (int i = 0; i < 4; i++) {
-                if (copyBoard.piecesHuman[i] == copyBoard.piecesComputer[pieceIndex]) {
+                int human = Board.pathHuman[copyBoard.piecesHuman[i]];
+                if(Position.isEqual(new Position(computer),new Position(human)))
                     copyBoard.piecesHuman[i] = -1;
-                }
             }
         } else {
             copyBoard.piecesHuman[pieceIndex] += move.steps;
+            int human = Board.pathHuman[copyBoard.piecesHuman[pieceIndex]];
             for (int i = 0; i < 4; i++) {
-                if (copyBoard.piecesComputer[i] == copyBoard.piecesHuman[pieceIndex]) {
+                int computer = Board.pathComputer[copyBoard.piecesComputer[i]];
+                if(Position.isEqual(new Position(computer),new Position(human)))
                     copyBoard.piecesComputer[i] = -1;
-                }
             }
         }
         return copyBoard;
