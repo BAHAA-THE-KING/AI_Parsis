@@ -8,15 +8,11 @@ public class Move {
         this.name = name;
         this.prob = prob;
     }
-
-
     public boolean isKhal() {
         return steps == 1;
     }
-
     @Override
     public String toString() {
-        return name;
-
+        return steps+"";
     }
 }

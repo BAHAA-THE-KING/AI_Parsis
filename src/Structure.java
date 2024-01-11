@@ -157,61 +157,81 @@ public class Structure {
         Board board = node.board;
         int[]pieces = player=='h'?board.piecesHuman:board.piecesComputer;
         List<Node> newNodes=new ArrayList<>();
-        for(Move move:moves){
-            for(int pieceIndex=0;pieceIndex<4;pieceIndex++){
-                int piece = pieces[pieceIndex];
-                if(!move.isKhal() && piece==-1){
-                    //piece not in map, and the move is not a khal
-                    continue;
-                }
-                if(canMove(board,player,pieceIndex,move)){
-                    Board copyBoard=applyMove(board,pieceIndex,move,player);
-                    newNodes.add(new Node(node,copyBoard));
-                }
-            }
-        }
-        for(Move move:moves.reversed()){
-            for(int pieceIndex=0;pieceIndex<4;pieceIndex++){
-                int piece = pieces[pieceIndex];
-                if(!move.isKhal() && piece==-1){
-                    //piece not in map, and the move is not a khal
-                    continue;
-                }
-                if(canMove(board,player,pieceIndex,move)){
-                    Board copyBoard=applyMove(board,pieceIndex,move,player);
-                    newNodes.add(new Node(node,copyBoard));
+        List<Map<Integer,List<Integer>>> combinations = MoveCombinations.generate(moves.size());
+
+        for(int i=0;i<combinations.size();i++){
+            Board copyBoard = new Board(board);
+            //iterate through combinations
+            Map<Integer,List<Integer>> combinationMap=combinations.get(i);
+            boolean validMove=true;
+            for(int pieceIndex=0;pieceIndex<4&&validMove;pieceIndex++){
+                //iterate through pieces
+                List<Integer> pieceMoves = combinationMap.get(pieceIndex);
+                for(int pieceMove:pieceMoves){
+                    Move pickedMove = moves.get(pieceMove);
+                    //check if move is applicable,if not skip this combination
+                    if(canMove(copyBoard,player,pieceIndex,pickedMove)){
+                        //apply the move on the piece on the board
+                        applyMove(copyBoard,pieceIndex,pickedMove,player);
+                    }else {
+                        validMove=false;
+                    }
+                    if(!validMove)break;
                 }
             }
+            if(validMove){
+                newNodes.add(new Node(node,copyBoard));
+            }
         }
+//
+//        for(Move move:moves){
+//            for(int pieceIndex=0;pieceIndex<4;pieceIndex++){
+//                int piece = pieces[pieceIndex];
+//                if(!move.isKhal() && piece==-1){
+//                    //piece not in map, and the move is not a khal
+//                    continue;
+//                }
+//                if(canMove(board,player,pieceIndex,move)){
+//                    Board copyBoard=applyMove(board,pieceIndex,move,player);
+//                    newNodes.add(new Node(node,copyBoard));
+//                }
+//            }
+//        }
+
+
         return newNodes;
     }
 
-    static Board applyMove(Board board, int pieceIndex, Move move, char player) {
-        Board copyBoard = new Board(board);
+    static void applyMove(Board board, int pieceIndex, Move move, char player) {
+        //tested and working
         if (player == 'c') {
-            copyBoard.piecesComputer[pieceIndex] += move.steps;
+            board.piecesComputer[pieceIndex] += move.steps;
             for (int i = 0; i < 4; i++) {
-                if (copyBoard.piecesHuman[i] == copyBoard.piecesComputer[pieceIndex]) {
-                    copyBoard.piecesHuman[i] = -1;
+                if (board.piecesHuman[i] == board.piecesComputer[pieceIndex]) {
+                    board.piecesHuman[i] = -1;
                 }
             }
         } else {
-            copyBoard.piecesHuman[pieceIndex] += move.steps;
+            board.piecesHuman[pieceIndex] += move.steps;
             for (int i = 0; i < 4; i++) {
-                if (copyBoard.piecesComputer[i] == copyBoard.piecesHuman[pieceIndex]) {
-                    copyBoard.piecesComputer[i] = -1;
+                if (board.piecesComputer[i] == board.piecesHuman[pieceIndex]) {
+                    board.piecesComputer[i] = -1;
                 }
             }
         }
-        return copyBoard;
     }
     static boolean canMove(Board board,char player,int pieceIndex,Move move){
         int[] path = (player==Board.C)?Board.pathComputer:Board.pathHuman;
         int[] pieces = (player==Board.C)?board.piecesComputer:board.piecesHuman;
         int pathIndex= pieces[pieceIndex];
         int nextPathIndex=pathIndex+move.steps;
+        //out of bounds
         if(nextPathIndex>83){
-            //out of bounds
+            return false;
+        }
+        //piece not in map, and the move is not a khal
+        int piecet = pieces[pieceIndex];
+        if(!move.isKhal() && piecet==-1){
             return false;
         }
         path = (player==Board.H)?Board.pathComputer:Board.pathHuman;

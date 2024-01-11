@@ -225,9 +225,9 @@ public class Board {
         piecesHuman[0] = 83;
         piecesHuman[1] = 83;
         piecesHuman[2] = 83;
-        piecesHuman[3] = 3;
-        piecesComputer[0] = 70;
-        piecesComputer[1] = 83;
+        piecesHuman[3] = 83;
+        piecesComputer[0] = 20;
+        piecesComputer[1] = 21;
         piecesComputer[2] = 83;
         piecesComputer[3] = 83;
     }

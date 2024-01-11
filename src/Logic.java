@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Logic {
@@ -5,8 +6,16 @@ public class Logic {
         Board initialBoard = new Board();
         Node root = new Node(null, initialBoard);
         humanTurn(root);
-        System.out.println(Structure.canMove(initialBoard,'c',0,new Move(24,"Duaq",0.9)));
-//        Structure.Board2array(initialBoard);
+        System.out.println("Initial...");
+        Structure.Board2array(initialBoard);
+        List<Move> moves = new ArrayList<>();
+        moves.add(new Move(10,"ten",1));
+        moves.add(new Move(1,"khal",1));
+        List<Node> nextStates = Structure.getNextStates(root,moves,'c');
+        for(Node node:nextStates){
+            System.out.println("--------------------------------------------------");
+            Structure.Board2array(node.board);
+        }
     }
 
     public static void humanTurn(Node node) {
