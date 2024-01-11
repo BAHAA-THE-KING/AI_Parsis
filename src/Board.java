@@ -1,9 +1,9 @@
 import java.util.Arrays;
 
 public class Board {
-    static int[] pathHuman = new int[84];
-    static int[] pathComputer = new int[84];
-    static int[] safeCells = new int[8];
+    public static int[] pathHuman = new int[84];
+    public static int[] pathComputer = new int[84];
+    public static int[] safeCells = new int[8];
     public final static char H='h',C='c';
 
     static {
@@ -103,7 +103,7 @@ public class Board {
         pathComputer[6] = 28;
         pathComputer[7] = 9;
         pathComputer[8] = 27;
-        pathComputer[9] = 45;
+        pathComputer[9] = 46;
         pathComputer[10] = 65;
         pathComputer[11] = 84;
         pathComputer[12] = 103;
@@ -222,14 +222,14 @@ public class Board {
     int[] piecesComputer = new int[4];
 
     public Board() {
-        piecesHuman[0] = -1;
-        piecesHuman[1] = -1;
-        piecesHuman[2] = -1;
-        piecesHuman[3] = -1;
-        piecesComputer[0] = -1;
-        piecesComputer[1] = -1;
-        piecesComputer[2] = -1;
-        piecesComputer[3] = -1;
+        piecesHuman[0] = 20;
+        piecesHuman[1] = 20;
+        piecesHuman[2] = 20;
+        piecesHuman[3] = 20;
+        piecesComputer[0] = 1;
+        piecesComputer[1] = 5;
+        piecesComputer[2] = 8;
+        piecesComputer[3] = 5;
     }
 
     public Board(Board board) {

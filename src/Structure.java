@@ -1,13 +1,125 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import java.util.List;
 
 public class Structure {
 
-    
+    private static String getSymbol(char player, int piece){
+
+        if(player == 'h'){
+            switch (piece){
+                case 0: return "➀";
+                case 1: return "➁";
+                case 2: return "➂";
+                case 3: return "➃";
+            }
+        }
+        else {
+            switch (piece){
+                case 0: return "❶";
+                case 1: return "❷";
+                case 2: return "❸";
+                case 3: return "❹";
+            }
+        }
+        return "you entered a wrong piece number";
+    }
+    public static String[][] Board2array(Board b){
+        String[][] arr = new String[21][21];
+        for (int i = 0; i < 21; i++) {
+            for (int j = 0; j < 21; j++) {
+
+                //playable cell
+                if((i > 8 && i < 12) || (j > 8 && j < 12)){
+                    if((i == 7 || i == 11) && (j == 7 || j == 11))
+                        arr[i][j] = "     ";
+                    else if(i == 7 || i == 11)
+                        arr[i][j] = "    |";
+                    else if(j == 7 || j == 11)
+                        arr[i][j] = " ___ ";
+                    else
+                        arr[i][j] = " __ |";
+                }
+
+                //non-playable = white spaces
+                else
+                    arr[i][j] = "     ";
+                //horizontal line
+                if(i == 8 || i == 12)
+                    arr[i][j] = "—————";
+                //vertical line
+                if(j == 8 || j == 12)
+                    arr[i][j] = "|";
+            }
+        }
+
+        //Add Human pieces
+        Map<Integer, String> pieces = new HashMap<>();
+        for (int i = 0; i < 4; i++) {
+            int id = b.piecesHuman[i];
+            int newCell = Board.pathHuman[id];
+            if(!pieces.containsKey(newCell)){
+                StringBuilder str = new StringBuilder("____|");
+                str.replace(i,i+1, getSymbol('h', i));
+                pieces.put(newCell, str.toString());
+            }
+            else {
+                String old = pieces.get(newCell);
+                String symb = getSymbol('h', i);
+
+                StringBuilder str = new StringBuilder(old);
+                str.replace(i,i+1, symb);
+
+                pieces.replace(newCell, str.toString());
+            }
+        }
+
+        //Add Computer Pieces
+        for (int i = 0; i < 4; i++) {
+            int id = b.piecesComputer[i];
+            int newCell = Board.pathComputer[id];
+            if(!pieces.containsKey(newCell)){
+                StringBuilder str = new StringBuilder("____|");
+                str.replace(i,i+1, getSymbol('c', i));
+                pieces.put(newCell, str.toString());
+            }
+            else {
+                String old = pieces.get(newCell);
+                String symb = getSymbol('c', i);
+
+                StringBuilder str = new StringBuilder(old);
+                str.replace(i,i+1, symb);
+
+                pieces.replace(newCell, str.toString());
+            }
+        }
+
+        //Draw pieces on Board
+        for(Map.Entry<Integer, String> entry : pieces.entrySet()){
+            Position p = new Position(entry.getKey());
+            if(p.y >= 12 )
+                p.y+=2;
+            else if(p.y >= 8)
+                p.y++;
+
+            if(p.x >= 12)
+                p.x+=2;
+            else if(p.x >= 8)
+                p.x++;
+
+            arr[p.y][p.x] = entry.getValue();
+        }
+
+
+        System.out.println("\n");
+        for (int i = 0; i < 21; i++) {
+            for (int j = 0; j < 21; j++) {
+                System.out.print(arr[i][j]);
+            }
+            System.out.println();
+        }
+        return arr;
+    }
 
     static void print(Board board) {
         char[][] chars = new char[19][19];
@@ -25,11 +137,13 @@ public class Structure {
         }
         for (int id : board.piecesComputer) {
             Position pos = new Position(id);
-            chars[pos.y][pos.x] = 'C';
+            if(pos.y > 0 && pos.x > 0)
+                chars[pos.y][pos.x] = 'C';
         }
         for (int id : board.piecesHuman) {
             Position pos = new Position(id);
-            chars[pos.y][pos.x] = 'H';
+            if(pos.y > 0 && pos.x > 0)
+                chars[pos.y][pos.x] = 'H';
         }
         for (int i = 0; i < 19; i++) {
             for (int j = 0; j < 19; j++) {

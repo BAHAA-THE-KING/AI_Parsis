@@ -6,7 +6,7 @@ public class Logic {
         Node root = new Node(null, initialBoard);
         humanTurn(root);
 
-        Structure.print(initialBoard);
+        Structure.Board2array(initialBoard);
     }
 
     public static void humanTurn(Node node) {
