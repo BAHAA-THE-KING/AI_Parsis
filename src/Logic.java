@@ -5,8 +5,8 @@ public class Logic {
         Board initialBoard = new Board();
         Node root = new Node(null, initialBoard);
         humanTurn(root);
-
-        Structure.Board2array(initialBoard);
+        System.out.println(Structure.canMove(initialBoard,'c',0,new Move(24,"Duaq",0.9)));
+//        Structure.Board2array(initialBoard);
     }
 
     public static void humanTurn(Node node) {
