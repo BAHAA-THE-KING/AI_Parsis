@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Structure {
 
-    private static String getSymbol(char player, int piece){
+    public static String getSymbol(char player, int piece){
 
         if(player == 'h'){
             switch (piece){
@@ -31,11 +31,7 @@ public class Structure {
 
                 //playable cell
                 if((i > 8 && i < 12) || (j > 8 && j < 12)){
-                    if((i == 7 || i == 11) && (j == 7 || j == 11))
-                        arr[i][j] = "     ";
-                    else if(i == 7 || i == 11)
-                        arr[i][j] = "    |";
-                    else if(j == 7 || j == 11)
+                    if(j == 7 || j == 11)
                         arr[i][j] = " ___ ";
                     else
                         arr[i][j] = " __ |";
@@ -53,104 +49,134 @@ public class Structure {
             }
         }
 
+        //Add safe places
+        for (int i = 0; i < 8; i++) {
+            Position pos = new Position(Board.safeCells[i]);
+            fixPosition(pos);
+            if(pos.x != 11 )
+                arr[pos.y][pos.x] = "_><_|";
+            else
+                arr[pos.y][pos.x] = " _><_";
+        }
+
         //Add Human pieces
         Map<Integer, String> pieces = new HashMap<>();
         for (int i = 0; i < 4; i++) {
             int id = b.piecesHuman[i];
-            int newCell = Board.pathHuman[id];
-            if(!pieces.containsKey(newCell)){
-                StringBuilder str = new StringBuilder("____|");
-                str.replace(i,i+1, getSymbol('h', i));
-                pieces.put(newCell, str.toString());
+
+            //if the piece is out of the board
+            if(id < 0){
+                arr[17+(i/2)][15+(i%2)] = "  " + getSymbol('h', i) + "  ";
             }
-            else {
-                String old = pieces.get(newCell);
-                String symb = getSymbol('h', i);
+            //the piece is on board
+            else{
 
-                StringBuilder str = new StringBuilder(old);
-                str.replace(i,i+1, symb);
+                int newCell = Board.pathHuman[id];
 
-                pieces.replace(newCell, str.toString());
+                //piece alone on cell
+                if(!pieces.containsKey(newCell)){
+
+                    Position pos = new Position(newCell);
+                    fixPosition(pos);
+                    StringBuilder str;
+                    if(pos.x == 7 || pos.x == 11)
+                        str = new StringBuilder(" ___ ");
+                    else
+                        str = new StringBuilder(" __ |");
+
+                    str.replace(i,i+1, getSymbol('h', i));
+                    pieces.put(newCell, str.toString());
+                }
+                //piece with other pieces on cell
+                else {
+                    String old = pieces.get(newCell);
+                    String symb = getSymbol('h', i);
+
+                    StringBuilder str = new StringBuilder(old);
+                    str.replace(i,i+1, symb);
+
+                    pieces.replace(newCell, str.toString());
+                }
             }
         }
 
         //Add Computer Pieces
         for (int i = 0; i < 4; i++) {
             int id = b.piecesComputer[i];
-            int newCell = Board.pathComputer[id];
-            if(!pieces.containsKey(newCell)){
-                StringBuilder str = new StringBuilder("____|");
-                str.replace(i,i+1, getSymbol('c', i));
-                pieces.put(newCell, str.toString());
+
+            //if the piece is out of the board
+            if(id < 0){
+                arr[3+(i/2)][15+(i%2)] = "  " + getSymbol('c', i) + "  ";
             }
+            //the piece is on board
             else {
-                String old = pieces.get(newCell);
-                String symb = getSymbol('c', i);
+                int newCell = Board.pathComputer[id];
 
-                StringBuilder str = new StringBuilder(old);
-                str.replace(i,i+1, symb);
+                //piece alone on cell
+                if(!pieces.containsKey(newCell)){
+                    StringBuilder str;
+                    if(new Position(id).x == 7 || new Position(id).x == 20)
+                        str = new StringBuilder(" ___ ");
+                    else
+                        str = new StringBuilder(" __ |");
 
-                pieces.replace(newCell, str.toString());
+                    str.replace(i,i+1, getSymbol('c', i));
+                    pieces.put(newCell, str.toString());
+                }
+                //piece with other pieces on cell
+                else {
+                    String old = pieces.get(newCell);
+                    String symb = getSymbol('c', i);
+
+                    StringBuilder str = new StringBuilder(old);
+                    str.replace(i,i+1, symb);
+
+                    pieces.replace(newCell, str.toString());
+                }
             }
         }
 
         //Draw pieces on Board
         for(Map.Entry<Integer, String> entry : pieces.entrySet()){
             Position p = new Position(entry.getKey());
-            if(p.y >= 12 )
-                p.y+=2;
-            else if(p.y >= 8)
-                p.y++;
 
-            if(p.x >= 12)
-                p.x+=2;
-            else if(p.x >= 8)
-                p.x++;
-
+            fixPosition(p);
             arr[p.y][p.x] = entry.getValue();
         }
 
 
-        System.out.println("\n");
+
+        return arr;
+    }
+
+    //fix the position for Board Print
+    static void fixPosition (Position p){
+        if(p.y >= 11 )
+            p.y+=2;
+        else if(p.y >= 8)
+            p.y++;
+
+        if(p.x >= 11)
+            p.x+=2;
+        else if(p.x >= 8)
+            p.x++;
+    }
+
+    static void print(Board board) {
+
+        String arr[][] = Structure.Board2array(board);
+
+        System.out.println("\n" +
+                "                                         " +
+                "_______________");
         for (int i = 0; i < 21; i++) {
             for (int j = 0; j < 21; j++) {
                 System.out.print(arr[i][j]);
             }
             System.out.println();
         }
-        return arr;
-    }
-
-    static void print(Board board) {
-        char[][] chars = new char[19][19];
-        for (int id : Board.pathComputer) {
-            Position pos = new Position(id);
-            chars[pos.y][pos.x] = 'o';
-        }
-        for (int id : Board.pathHuman) {
-            Position pos = new Position(id);
-            chars[pos.y][pos.x] = 'o';
-        }
-        for (int id : Board.safeCells) {
-            Position pos = new Position(id);
-            chars[pos.y][pos.x] = 'X';
-        }
-        for (int id : board.piecesComputer) {
-            if (id == -1) continue;
-            Position pos = new Position(id);
-            chars[pos.y][pos.x] = 'C';
-        }
-        for (int id : board.piecesHuman) {
-            if (id == -1) continue;
-            Position pos = new Position(id);
-            chars[pos.y][pos.x] = 'H';
-        }
-        for (int i = 0; i < 19; i++) {
-            for (int j = 0; j < 19; j++) {
-                System.out.print((chars[i][j] == '\u0000') ? ' ' : chars[i][j]);
-            }
-            System.out.println("");
-        }
+        System.out.println("                                         " +
+                "———————————————");
     }
 
     static List<Node> getNextStates(Node node, List<Move> moves, char player) {
@@ -202,26 +228,29 @@ public class Structure {
         return newNodes;
     }
 
-    static void applyMove(Board board, int pieceIndex, Move move, char player) {
-        //tested and working
+    static Board applyMove(Board board, int pieceIndex, Move move, char player) {
+        Board copyBoard = new Board(board);
         if (player == 'c') {
-            board.piecesComputer[pieceIndex] += move.steps;
+            copyBoard.piecesComputer[pieceIndex] += move.steps;
+            int computer = Board.pathComputer[copyBoard.piecesComputer[pieceIndex]];
             for (int i = 0; i < 4; i++) {
-                if (board.piecesHuman[i] == board.piecesComputer[pieceIndex]) {
-                    board.piecesHuman[i] = -1;
-                }
+                int human = Board.pathHuman[copyBoard.piecesHuman[i]];
+                if(Position.isEqual(new Position(computer),new Position(human)))
+                    copyBoard.piecesHuman[i] = -1;
             }
         } else {
-            board.piecesHuman[pieceIndex] += move.steps;
+            copyBoard.piecesHuman[pieceIndex] += move.steps;
+            int human = Board.pathHuman[copyBoard.piecesHuman[pieceIndex]];
             for (int i = 0; i < 4; i++) {
-                if (board.piecesComputer[i] == board.piecesHuman[pieceIndex]) {
-                    board.piecesComputer[i] = -1;
-                }
+                int computer = Board.pathComputer[copyBoard.piecesComputer[i]];
+                if(Position.isEqual(new Position(computer),new Position(human)))
+                    copyBoard.piecesComputer[i] = -1;
             }
         }
+        return copyBoard;
     }
     static boolean canMove(Board board,char player,int pieceIndex,Move move){
-        int[] path = (player==Board.C)?Board.pathComputer:Board.pathHuman;
+        int[] path;
         int[] pieces = (player==Board.C)?board.piecesComputer:board.piecesHuman;
         int pathIndex= pieces[pieceIndex];
         int nextPathIndex=pathIndex+move.steps;
@@ -256,22 +285,46 @@ public class Structure {
             }
         }
         if (ones == 1) {
-            moves.add(new Move(10, "dest", 1));
+            moves.add(new Move(10, "dest", 0.186624));
             moves.add(new Move(1, "khal", 1));
         } else if (ones == 2) {
-            moves.add(new Move(2, "dua", 1));
+            moves.add(new Move(2, "dua", 0.31104));
         } else if (ones == 3) {
-            moves.add(new Move(3, "three", 1));
+            moves.add(new Move(3, "three", 0.27648));
         } else if (ones == 4) {
-            moves.add(new Move(4, "four", 1));
+            moves.add(new Move(4, "four", 0.13824));
         } else if (ones == 5) {
-            moves.add(new Move(25, "bnj", 1));
+            moves.add(new Move(25, "bnj", 0.0384));
             moves.add(new Move(1, "khal", 1));
         } else if (ones == 0) {
-            moves.add(new Move(6, "shaka", 1));
+            moves.add(new Move(6, "shaka", 0.046656));
         } else if (ones == 6) {
-            moves.add(new Move(12, "bara", 1));
+            moves.add(new Move(12, "bara", 0.004096));
         }
+
+//        P(X=k)=(kn)×pk×(1−p)n−k
+//
+//        Probability of getting all zeros (000000):
+//        P(X=6)=(66)×(0.6)6×(0.4)0P(X=6)=(66)×(0.6)6×(0.4)0 = 0.046656
+//
+//        Probability of getting five zeros and one (000001):
+//        P(X=5)=(65)×(0.6)5×(0.4)1P(X=5)=(56)×(0.6)5×(0.4)1 = 0.186624
+//
+//        Probability of getting four zeros and two ones (000011):
+//        P(X=4)=(64)×(0.6)4×(0.4)2P(X=4)=(46)×(0.6)4×(0.4)2 = 0.31104
+//
+//        Probability of getting three zeros and three ones (000111):
+//        P(X=3)=(63)×(0.6)3×(0.4)3P(X=3)=(36)×(0.6)3×(0.4)3 = 0.27648
+//
+//        Probability of getting two zeros and four ones (001111):
+//        P(X=2)=(62)×(0.6)2×(0.4)4P(X=2)=(26)×(0.6)2×(0.4)4 = 0.13824
+//
+//        Probability of getting one zero and five ones (01111):
+//        P(X=1)=(61)×(0.6)1×(0.4)5P(X=1)=(16)×(0.6)1×(0.4)5 = 0.0384
+//
+//        Probability of getting all ones (111111):
+//        P(X=0)=(60)×(0.6)0×(0.4)6P(X=0)=(06)×(0.6)0×(0.4)6 = 0.004096
+
         return moves;
 
     }
