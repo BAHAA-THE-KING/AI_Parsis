@@ -8,19 +8,18 @@ public class Logic {
         Board initialBoard = new Board();
         Node root = new Node(null, initialBoard);
         Structure.print(initialBoard);
-        humanTurn(root , scanner);
+//        humanTurn(root , scanner);
 
 
-        humanTurn(root);
         System.out.println("Initial...");
-        Structure.Board2array(initialBoard);
+        Structure.print(initialBoard);
         List<Move> moves = new ArrayList<>();
-        moves.add(new Move(10,"ten",1));
+        moves.add(new Move(1,"ten",1));
         moves.add(new Move(1,"khal",1));
         List<Node> nextStates = Structure.getNextStates(root,moves,'c');
         for(Node node:nextStates){
             System.out.println("--------------------------------------------------");
-            Structure.Board2array(node.board);
+            Structure.print(node.board);
         }
     }
 
@@ -47,7 +46,7 @@ public class Logic {
             System.out.println("Your pieces can move [ "+humanSelectedMove+" ]: "+humanLifePieces);
             System.out.print("Choose piece to move : ");
             int selectedPiece = scanner.nextInt() - 1;
-            node.board= Structure.applyMove(node.board , selectedPiece , humanSelectedMove , 'h');
+            Structure.applyMove(node.board , selectedPiece , humanSelectedMove , 'h');
             Structure.print(node.board);
         }
         System.out.println("Your turn end");

@@ -228,8 +228,8 @@ public class Board {
         piecesHuman[3] = 83;
         piecesComputer[0] = 20;
         piecesComputer[1] = 21;
-        piecesComputer[2] = 83;
-        piecesComputer[3] = 83;
+        piecesComputer[2] = -1;
+        piecesComputer[3] = -1;
     }
 
     public Board(Board board) {

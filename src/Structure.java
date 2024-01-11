@@ -228,26 +228,24 @@ public class Structure {
         return newNodes;
     }
 
-    static Board applyMove(Board board, int pieceIndex, Move move, char player) {
-        Board copyBoard = new Board(board);
+    static void applyMove(Board board, int pieceIndex, Move move, char player) {
         if (player == 'c') {
-            copyBoard.piecesComputer[pieceIndex] += move.steps;
-            int computer = Board.pathComputer[copyBoard.piecesComputer[pieceIndex]];
+            board.piecesComputer[pieceIndex] += move.steps;
+            int computer = Board.pathComputer[board.piecesComputer[pieceIndex]];
             for (int i = 0; i < 4; i++) {
-                int human = Board.pathHuman[copyBoard.piecesHuman[i]];
+                int human = Board.pathHuman[board.piecesHuman[i]];
                 if(Position.isEqual(new Position(computer),new Position(human)))
-                    copyBoard.piecesHuman[i] = -1;
+                    board.piecesHuman[i] = -1;
             }
         } else {
-            copyBoard.piecesHuman[pieceIndex] += move.steps;
-            int human = Board.pathHuman[copyBoard.piecesHuman[pieceIndex]];
+            board.piecesHuman[pieceIndex] += move.steps;
+            int human = Board.pathHuman[board.piecesHuman[pieceIndex]];
             for (int i = 0; i < 4; i++) {
-                int computer = Board.pathComputer[copyBoard.piecesComputer[i]];
+                int computer = Board.pathComputer[board.piecesComputer[i]];
                 if(Position.isEqual(new Position(computer),new Position(human)))
-                    copyBoard.piecesComputer[i] = -1;
+                    board.piecesComputer[i] = -1;
             }
         }
-        return copyBoard;
     }
     static boolean canMove(Board board,char player,int pieceIndex,Move move){
         int[] path;
