@@ -328,7 +328,28 @@ public class Structure {
     }
 
     static float evaluate(Board board) {
-        //TODO fill me please
-        return 0f;
+        float value = 0;
+        //Steps Moved
+        for (int posIndex : board.piecesComputer) {
+            if (posIndex == -1) value -= 10;
+            else value += posIndex + 1;
+        }
+        for (int posIndex : board.piecesHuman) {
+            if (posIndex == -1) value += 10;
+            else value -= posIndex + 1;
+        }
+        //Is Someone Behind You ?
+        for (int posIndexC : board.piecesComputer) {
+            for (int posIndexH : board.piecesHuman) {
+                if (posIndexC == -1 || posIndexH == -1) continue;
+                int diff = posIndexH - posIndexC;
+                if (diff == 1 || diff == 2 || diff == 3 || diff == 4 || diff == 6 || diff == 10 || diff == 11 || diff == 12 || diff == 25 || diff == 26)
+                    value += 10;
+                else if (diff == -1 || diff == -2 || diff == -3 || diff == -4 || diff == -6 || diff == -10 || diff == -11 || diff == -12 || diff == -25 || diff == -26)
+                    value -= 10;
+
+            }
+        }
+        return value;
     }
 }
