@@ -102,23 +102,23 @@ public class Board {
         pathComputer[5] = 47;
         pathComputer[6] = 28;
         pathComputer[7] = 9;
-        pathComputer[8] = 27;
-        pathComputer[9] = 46;
-        pathComputer[10] = 65;
-        pathComputer[11] = 84;
-        pathComputer[12] = 103;
-        pathComputer[13] = 122;
-        pathComputer[14] = 141;
-        pathComputer[15] = 159;
-        pathComputer[16] = 158;
-        pathComputer[17] = 157;
-        pathComputer[18] = 156;
-        pathComputer[19] = 155;
-        pathComputer[20] = 154;
-        pathComputer[21] = 153;
-        pathComputer[22] = 152;
-        pathComputer[23] = 171;
-        pathComputer[24] = 190;
+        pathComputer[8] = 8;
+        pathComputer[9] = 27;
+        pathComputer[10] = 46;
+        pathComputer[11] = 65;
+        pathComputer[12] = 84;
+        pathComputer[13] = 103;
+        pathComputer[14] = 122;
+        pathComputer[15] = 141;
+        pathComputer[16] = 159;
+        pathComputer[17] = 158;
+        pathComputer[18] = 157;
+        pathComputer[19] = 156;
+        pathComputer[20] = 155;
+        pathComputer[21] = 154;
+        pathComputer[22] = 153;
+        pathComputer[23] = 152;
+        pathComputer[24] = 171;
         pathComputer[25] = 190;
         pathComputer[26] = 191;
         pathComputer[27] = 192;
@@ -179,7 +179,7 @@ public class Board {
         pathComputer[82] = 142;
         pathComputer[83] = 161;
 
-       
+
         //init safe cells
         safeCells[0] = 46;
         safeCells[1] = 48;
