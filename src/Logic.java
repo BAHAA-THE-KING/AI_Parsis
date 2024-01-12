@@ -5,11 +5,10 @@ import java.util.Scanner;
 
 public class Logic {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         Board initialBoard = new Board();
         Node root = new Node(null, initialBoard);
-//        Structure.print(initialBoard);
-//        humanTurn(root , scanner);
+        Structure.print(initialBoard);
+        humanTurn(root);
 
 
         System.out.println("Initial...");
@@ -24,7 +23,9 @@ public class Logic {
         }
     }
 
-    public static void humanTurn(Node node , Scanner scanner) {
+    static Scanner scanner=new Scanner(System.in);
+
+    public static void humanTurn(Node node) {
         System.out.println("It's your turn");
         List<Move> humanMoves = Structure.throwShells();
 //        List<Move> humanMoves = new ArrayList<>();
@@ -78,15 +79,13 @@ public class Logic {
         }
 
         System.out.println("Your turn end");
-        //computerTurn(node);
+        computerTurn(node);
     }
 
     public static void computerTurn(Node node) {
-        //TODO fill me
-        //expectiMiniMax();
-        //humanTurn(node);
-    }
-
-    public static void expectiMiniMax() {
+        List<Move> moves = Structure.throwShells();
+        Node nextNode = new MaximizingNode(node, node.board, moves).getMaxEvaluation().key;
+        Structure.print(nextNode.board);
+        humanTurn(nextNode);
     }
 }
