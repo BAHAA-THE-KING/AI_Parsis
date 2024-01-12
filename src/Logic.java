@@ -4,17 +4,17 @@ import java.util.Scanner;
 
 public class Logic {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+//        Scanner scanner = new Scanner(System.in);
         Board initialBoard = new Board();
         Node root = new Node(null, initialBoard);
-        Structure.print(initialBoard);
+//        Structure.print(initialBoard);
 //        humanTurn(root , scanner);
 
 
         System.out.println("Initial...");
         Structure.print(initialBoard);
         List<Move> moves = new ArrayList<>();
-        moves.add(new Move(1,"ten",1));
+        moves.add(new Move(10,"ten",1));
         moves.add(new Move(1,"khal",1));
         List<Node> nextStates = Structure.getNextStates(root,moves,'c');
         for(Node node:nextStates){
