@@ -179,7 +179,7 @@ public class Board {
         pathComputer[82] = 142;
         pathComputer[83] = 161;
 
-       
+
         //init safe cells
         safeCells[0] = 46;
         safeCells[1] = 48;
@@ -222,12 +222,12 @@ public class Board {
     int[] piecesComputer = new int[4];
 
     public Board() {
-        piecesHuman[0] = 83;
-        piecesHuman[1] = 83;
-        piecesHuman[2] = 83;
+        piecesHuman[0] = 2;
+        piecesHuman[1] = 2;
+        piecesHuman[2] = 50;
         piecesHuman[3] = 83;
-        piecesComputer[0] = 20;
-        piecesComputer[1] = 21;
+        piecesComputer[0] = 1;
+        piecesComputer[1] = 5;
         piecesComputer[2] = -1;
         piecesComputer[3] = -1;
     }
@@ -238,7 +238,10 @@ public class Board {
     }
 
     public boolean isSafe(int id){
-        return Arrays.asList(safeCells).contains(id);
+        for (int i = 0; i < safeCells.length; i++) {
+            if (safeCells[i] == id) return true;
+        }
+        return false;
     }
 
 }
