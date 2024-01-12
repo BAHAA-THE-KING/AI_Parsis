@@ -236,23 +236,35 @@ public class Structure {
     static boolean canMove(Board board,char player,int pieceIndex,Move move){
         int[] pathEnemy;
         int[] pathPlayer;
-        int[] pieces = (player==Board.C)?board.piecesComputer:board.piecesHuman;
-        int pathIndex= pieces[pieceIndex];
-        int nextPathIndex=pathIndex+move.steps;
+        int[] PlayerPieces = (player == Board.C) ? board.piecesComputer : board.piecesHuman;
+
+        int pathIndex = PlayerPieces[pieceIndex];
+        int nextPathIndex = pathIndex + move.steps;
+
+        //if the piece is out of the board and the move is not a khal
+        if(pathIndex < 0 && !move.isKhal()){
+            return false;
+        }
+        //check if move is bigger than remaining steps
         if(nextPathIndex>83){
             //out of bounds
             return false;
         }
-        pathEnemy = (player==Board.H)?Board.pathComputer:Board.pathHuman;
-        pathPlayer = (player==Board.H)?Board.pathHuman:Board.pathComputer;
-        pieces = (player==Board.H)?board.piecesComputer:board.piecesHuman;
+
+        //check if the next cell is a safe cell with enemy piece on it
+        pathEnemy = (player == Board.H) ? Board.pathComputer : Board.pathHuman;
+        pathPlayer = (player == Board.H) ? Board.pathHuman : Board.pathComputer;
+        int[] EnemyPieces = (player == Board.H) ? board.piecesComputer : board.piecesHuman;
+
         int block_id = pathPlayer[nextPathIndex];
-        if(board.isSafe(block_id)){
-            for(int piece:pieces){
-                if(pathEnemy[piece]==block_id)
+        if (board.isSafe(block_id)) {
+            for (int piece : EnemyPieces) {
+                if (pathEnemy[piece] == block_id)
                     return false;
             }
         }
+
+        //move is valid
         return true;
     }
     static List<Move> throwShells() {
@@ -266,8 +278,8 @@ public class Structure {
             }
         }
         if (ones == 1) {
-            moves.add(new Move(10, "dest", 0.186624));
             moves.add(new Move(1, "khal", 1));
+            moves.add(new Move(10, "dest", 0.186624));
         } else if (ones == 2) {
             moves.add(new Move(2, "dua", 0.31104));
         } else if (ones == 3) {
@@ -275,8 +287,8 @@ public class Structure {
         } else if (ones == 4) {
             moves.add(new Move(4, "four", 0.13824));
         } else if (ones == 5) {
-            moves.add(new Move(25, "bnj", 0.0384));
             moves.add(new Move(1, "khal", 1));
+            moves.add(new Move(25, "bnj", 0.0384));
         } else if (ones == 0) {
             moves.add(new Move(6, "shaka", 0.046656));
         } else if (ones == 6) {
