@@ -222,14 +222,14 @@ public class Board {
     int[] piecesComputer = new int[4];
 
     public Board() {
-        piecesHuman[0] = -1;
-        piecesHuman[1] = -1;
-        piecesHuman[2] = -1;
+        piecesHuman[0] = 2;
+        piecesHuman[1] = 2;
+        piecesHuman[2] = 50;
         piecesHuman[3] = 83;
         piecesComputer[0] = 1;
         piecesComputer[1] = 5;
-        piecesComputer[2] = 10;
-        piecesComputer[3] = 5;
+        piecesComputer[2] = -1;
+        piecesComputer[3] = -1;
     }
 
     public Board(Board board) {

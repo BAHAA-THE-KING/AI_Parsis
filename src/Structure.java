@@ -226,7 +226,12 @@ public class Structure {
             copyBoard.piecesHuman[pieceIndex] += move.steps;
             int human = Board.pathHuman[copyBoard.piecesHuman[pieceIndex]];
             for (int i = 0; i < 4; i++) {
-                int computer = Board.pathComputer[copyBoard.piecesComputer[i]];
+
+                int pathIndex = copyBoard.piecesComputer[i];
+                if(pathIndex < 0)
+                    continue;
+
+                int computer = Board.pathComputer[pathIndex];
                 if(human == computer)
                     copyBoard.piecesComputer[i] = -1;
             }
