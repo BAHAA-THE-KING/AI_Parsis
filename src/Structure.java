@@ -266,22 +266,46 @@ public class Structure {
             }
         }
         if (ones == 1) {
-            moves.add(new Move(10, "dest", 1));
+            moves.add(new Move(10, "dest", 0.186624));
             moves.add(new Move(1, "khal", 1));
         } else if (ones == 2) {
-            moves.add(new Move(2, "dua", 1));
+            moves.add(new Move(2, "dua", 0.31104));
         } else if (ones == 3) {
-            moves.add(new Move(3, "three", 1));
+            moves.add(new Move(3, "three", 0.27648));
         } else if (ones == 4) {
-            moves.add(new Move(4, "four", 1));
+            moves.add(new Move(4, "four", 0.13824));
         } else if (ones == 5) {
-            moves.add(new Move(25, "bnj", 1));
+            moves.add(new Move(25, "bnj", 0.0384));
             moves.add(new Move(1, "khal", 1));
         } else if (ones == 0) {
-            moves.add(new Move(6, "shaka", 1));
+            moves.add(new Move(6, "shaka", 0.046656));
         } else if (ones == 6) {
-            moves.add(new Move(12, "bara", 1));
+            moves.add(new Move(12, "bara", 0.004096));
         }
+
+//        P(X=k)=(kn)×pk×(1−p)n−k
+//
+//        Probability of getting all zeros (000000):
+//        P(X=6)=(66)×(0.6)6×(0.4)0P(X=6)=(66)×(0.6)6×(0.4)0 = 0.046656
+//
+//        Probability of getting five zeros and one (000001):
+//        P(X=5)=(65)×(0.6)5×(0.4)1P(X=5)=(56)×(0.6)5×(0.4)1 = 0.186624
+//
+//        Probability of getting four zeros and two ones (000011):
+//        P(X=4)=(64)×(0.6)4×(0.4)2P(X=4)=(46)×(0.6)4×(0.4)2 = 0.31104
+//
+//        Probability of getting three zeros and three ones (000111):
+//        P(X=3)=(63)×(0.6)3×(0.4)3P(X=3)=(36)×(0.6)3×(0.4)3 = 0.27648
+//
+//        Probability of getting two zeros and four ones (001111):
+//        P(X=2)=(62)×(0.6)2×(0.4)4P(X=2)=(26)×(0.6)2×(0.4)4 = 0.13824
+//
+//        Probability of getting one zero and five ones (01111):
+//        P(X=1)=(61)×(0.6)1×(0.4)5P(X=1)=(16)×(0.6)1×(0.4)5 = 0.0384
+//
+//        Probability of getting all ones (111111):
+//        P(X=0)=(60)×(0.6)0×(0.4)6P(X=0)=(06)×(0.6)0×(0.4)6 = 0.004096
+
         return moves;
 
     }
@@ -306,7 +330,28 @@ public class Structure {
     }
 
     static float evaluate(Board board) {
-        //TODO fill me please
-        return 0f;
+        float value = 0;
+        //Steps Moved
+        for (int posIndex : board.piecesComputer) {
+            if (posIndex == -1) value -= 10;
+            else value += posIndex + 1;
+        }
+        for (int posIndex : board.piecesHuman) {
+            if (posIndex == -1) value += 10;
+            else value -= posIndex + 1;
+        }
+        //Is Someone Behind You ?
+        for (int posIndexC : board.piecesComputer) {
+            for (int posIndexH : board.piecesHuman) {
+                if (posIndexC == -1 || posIndexH == -1) continue;
+                int diff = posIndexH - posIndexC;
+                if (diff == 1 || diff == 2 || diff == 3 || diff == 4 || diff == 6 || diff == 10 || diff == 11 || diff == 12 || diff == 25 || diff == 26)
+                    value += 10;
+                else if (diff == -1 || diff == -2 || diff == -3 || diff == -4 || diff == -6 || diff == -10 || diff == -11 || diff == -12 || diff == -25 || diff == -26)
+                    value -= 10;
+
+            }
+        }
+        return value;
     }
 }
