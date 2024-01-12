@@ -222,13 +222,13 @@ public class Board {
     int[] piecesComputer = new int[4];
 
     public Board() {
-        piecesHuman[0] = 40;
-        piecesHuman[1] = 20;
-        piecesHuman[2] = 20;
-        piecesHuman[3] = 20;
+        piecesHuman[0] = -1;
+        piecesHuman[1] = -1;
+        piecesHuman[2] = -1;
+        piecesHuman[3] = 83;
         piecesComputer[0] = 1;
         piecesComputer[1] = 5;
-        piecesComputer[2] = 8;
+        piecesComputer[2] = 10;
         piecesComputer[3] = 5;
     }
 
@@ -238,7 +238,10 @@ public class Board {
     }
 
     public boolean isSafe(int id){
-        return Arrays.asList(safeCells).contains(id);
+        for (int i = 0; i < safeCells.length; i++) {
+            if (safeCells[i] == id) return true;
+        }
+        return false;
     }
 
 }

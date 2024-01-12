@@ -219,7 +219,7 @@ public class Structure {
             int computer = Board.pathComputer[copyBoard.piecesComputer[pieceIndex]];
             for (int i = 0; i < 4; i++) {
                 int human = Board.pathHuman[copyBoard.piecesHuman[i]];
-                if(Position.isEqual(new Position(computer),new Position(human)))
+                if(human == computer)
                     copyBoard.piecesHuman[i] = -1;
             }
         } else {
@@ -227,14 +227,15 @@ public class Structure {
             int human = Board.pathHuman[copyBoard.piecesHuman[pieceIndex]];
             for (int i = 0; i < 4; i++) {
                 int computer = Board.pathComputer[copyBoard.piecesComputer[i]];
-                if(Position.isEqual(new Position(computer),new Position(human)))
+                if(human == computer)
                     copyBoard.piecesComputer[i] = -1;
             }
         }
         return copyBoard;
     }
     static boolean canMove(Board board,char player,int pieceIndex,Move move){
-        int[] path;
+        int[] pathEnemy;
+        int[] pathPlayer;
         int[] pieces = (player==Board.C)?board.piecesComputer:board.piecesHuman;
         int pathIndex= pieces[pieceIndex];
         int nextPathIndex=pathIndex+move.steps;
@@ -242,12 +243,13 @@ public class Structure {
             //out of bounds
             return false;
         }
-        path = (player==Board.H)?Board.pathComputer:Board.pathHuman;
+        pathEnemy = (player==Board.H)?Board.pathComputer:Board.pathHuman;
+        pathPlayer = (player==Board.H)?Board.pathHuman:Board.pathComputer;
         pieces = (player==Board.H)?board.piecesComputer:board.piecesHuman;
-        int block_id = path[nextPathIndex];
+        int block_id = pathPlayer[nextPathIndex];
         if(board.isSafe(block_id)){
             for(int piece:pieces){
-                if(path[piece]==block_id)
+                if(pathEnemy[piece]==block_id)
                     return false;
             }
         }

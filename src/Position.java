@@ -15,12 +15,6 @@ public class Position {
     }
 
 
-    public static boolean isEqual(Position p1 , Position p2) {
-        if(p1.x == p2.x && p1.y == p2.y) return true;
-        return false;
-    }
-
-
 
     @Override
     public String toString() {
