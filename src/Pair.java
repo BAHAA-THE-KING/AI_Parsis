@@ -1,8 +1,14 @@
-public class Pair {
-    Object x;
-    Object y;
-    public Pair(Object x, Object y) {
-        this.x = x;
-        this.y = y;
+public class Pair<K, V> {
+    K key;
+    V value;
+
+    public Pair(K key, V value) {
+        this.key = key;
+        this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return "{ " + key + ", " + value + " }";
     }
 }
