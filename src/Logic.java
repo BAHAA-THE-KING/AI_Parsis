@@ -7,20 +7,28 @@ public class Logic {
     public static void main(String[] args) {
         Board initialBoard = new Board();
         Node root = new Node(null, initialBoard);
-//        Structure.print(initialBoard);
-//        humanTurn(root);
-
-
-        System.out.println("Initial...");
         Structure.print(initialBoard);
+        System.out.println(new Position(218));
+        humanTurn(root);
         List<Move> moves = new ArrayList<>();
-        moves.add(new Move(10,"ten",1));
-        moves.add(new Move(1,"khal",1));
-        List<Node> nextStates = Structure.getNextStates(root,moves,'c');
-        for(Node node:nextStates){
-            System.out.println("--------------------------------------------------");
-            Structure.print(node.board);
-        }
+        moves.add(new Move(2));
+        moves.add(new Move(10));
+        moves.add(new Move(1));
+        moves.add(new Move(25));
+        moves.add(new Move(1));
+
+//        System.out.println(MoveCombinations.getProbability(moves));
+
+//        System.out.println("Initial...");
+//        Structure.print(initialBoard);
+//        List<Move> moves = new ArrayList<>();
+//        moves.add(new Move(10,"ten",1));
+//        moves.add(new Move(1,"khal",1));
+//        List<Node> nextStates = Structure.getNextStates(root,moves,'c');
+//        for(Node node:nextStates){
+//            System.out.println("--------------------------------------------------");
+//            Structure.print(node.board);
+//        }
     }
 
     static Scanner scanner = new Scanner(System.in);

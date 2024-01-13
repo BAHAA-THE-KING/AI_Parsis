@@ -96,4 +96,54 @@ public class MoveCombinations {
         List<Integer> moves = generateMoves(movesNum);
         return generateMoveCombinations(pieces, moves);
     }
+
+    public static double getProbability(List<Move> moves){
+
+        //law = permutations * move_1.probability * move_2.probability * .....
+        double probs = 1;
+        int repeats[] = {0,0,0,0,0,0,0};
+
+        for( Move move : moves){
+            probs *= move.prob;
+
+            switch (move.steps){
+                case 2: repeats[0]++;
+                    break;
+                case 3: repeats[1]++;
+                    break;
+                case 4: repeats[2]++;
+                    break;
+                case 6: repeats[3]++;
+                    break;
+                case 10: repeats[4]++;
+                    break;
+                case 12: repeats[5]++;
+                    break;
+                case 25: repeats[6]++;
+                    break;
+                default:
+            }
+        }
+
+        int numerator = 0;
+        int denominator = 1;
+        for (int i : repeats){
+            if(i != 0) {
+                numerator += i;
+                denominator *= getFactory(i);
+            }
+        }
+
+        int permutations = getFactory(numerator-1)/denominator;
+
+        return permutations * probs;
+    }
+
+    public static int getFactory(int n){
+        int factory = 1;
+        for (int i = 1; i <= n; i++) {
+            factory *= i;
+        }
+        return factory;
+    }
 }

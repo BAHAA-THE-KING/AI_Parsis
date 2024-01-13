@@ -33,6 +33,11 @@ public class Structure {
                 if((i > 8 && i < 12) || (j > 8 && j < 12)){
                     if(j == 7 || j == 11)
                         arr[i][j] = " ___ ";
+                    //starting cells
+                    else if(j == 10 && i == 7)
+                        arr[i][j] = " ⏫⏫ |";
+                    else if(j == 10 && i == 13)
+                        arr[i][j] = " ⏬⏬ |";
                     else
                         arr[i][j] = " __ |";
                 }
@@ -114,8 +119,10 @@ public class Structure {
 
                 //piece alone on cell
                 if(!pieces.containsKey(newCell)){
+                    Position pos = new Position(newCell);
+                    fixPosition(pos);
                     StringBuilder str;
-                    if(new Position(id).x == 7 || new Position(id).x == 20)
+                    if(pos.x == 7 || pos.x == 11)
                         str = new StringBuilder(" ___ ");
                     else
                         str = new StringBuilder(" __ |");
@@ -297,21 +304,21 @@ public class Structure {
             }
         }
         if (ones == 1) {
-            moves.add(new Move(1, "khal", 1));
-            moves.add(new Move(10, "dest", 0.186624));
+            moves.add(new Move(1));
+            moves.add(new Move(10));
         } else if (ones == 2) {
-            moves.add(new Move(2, "dua", 0.31104));
+            moves.add(new Move(2));
         } else if (ones == 3) {
-            moves.add(new Move(3, "three", 0.27648));
+            moves.add(new Move(3));
         } else if (ones == 4) {
-            moves.add(new Move(4, "four", 0.13824));
+            moves.add(new Move(4));
         } else if (ones == 5) {
-            moves.add(new Move(1, "khal", 1));
-            moves.add(new Move(25, "bnj", 0.0384));
+            moves.add(new Move(1));
+            moves.add(new Move(25));
         } else if (ones == 0) {
-            moves.add(new Move(6, "shaka", 0.046656));
+            moves.add(new Move(6));
         } else if (ones == 6) {
-            moves.add(new Move(12, "bara", 0.004096));
+            moves.add(new Move(12));
         }
 
 //        P(X=k)=(kn)×pk×(1−p)n−k
@@ -326,13 +333,13 @@ public class Structure {
 //        P(X=4)=(64)×(0.6)4×(0.4)2P(X=4)=(46)×(0.6)4×(0.4)2 = 0.31104
 //
 //        Probability of getting three zeros and three ones (000111):
-//        P(X=3)=(63)×(0.6)3×(0.4)3P(X=3)=(36)×(0.6)3×(0.4)3 = 0.27648
+//        P(X=3)=c(6,3)×(0.6)3×(0.4)3P(X=3)=(36)×(0.6)3×(0.4)3 = 0.27648
 //
 //        Probability of getting two zeros and four ones (001111):
 //        P(X=2)=(62)×(0.6)2×(0.4)4P(X=2)=(26)×(0.6)2×(0.4)4 = 0.13824
 //
 //        Probability of getting one zero and five ones (01111):
-//        P(X=1)=(61)×(0.6)1×(0.4)5P(X=1)=(16)×(0.6)1×(0.4)5 = 0.0384
+//        P(X=1)=(61)×(0.6)1×(0.4)5P(X=1)=(16)×(0.6)1×(0.4)5 = 0.036864
 //
 //        Probability of getting all ones (111111):
 //        P(X=0)=(60)×(0.6)0×(0.4)6P(X=0)=(06)×(0.6)0×(0.4)6 = 0.004096

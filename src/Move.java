@@ -6,41 +6,47 @@ public class Move {
     public Move(int steps) {
         this.steps = steps;
         switch (steps) {
+            case 1 -> {
+                this.name = "khal";
+                this.prob = 1;
+                break;
+            }
             case 2 -> {
                 this.name = "dua";
                 this.prob = 0.31104;
+                break;
             }
             case 3 -> {
                 this.name = "three";
                 this.prob = 0.27648;
+                break;
             }
             case 4 -> {
                 this.name = "four";
                 this.prob = 0.13824;
+                break;
             }
             case 6 -> {
                 this.name = "shaka";
                 this.prob = 0.046656;
+                break;
             }
             case 10 -> {
                 this.name = "dest";
                 this.prob = 0.186624;
+                break;
             }
             case 12 -> {
                 this.name = "bara";
                 this.prob = 0.004096;
+                break;
             }
             case 25 -> {
                 this.name = "bnj";
-                this.prob = 0.0384;
+                this.prob = 0.036864;
+                break;
             }
         }
-    }
-
-    public Move(int steps, String name, double prob) {
-        this.steps = steps;
-        this.name = name;
-        this.prob = prob;
     }
 
     public boolean isKhal() {
