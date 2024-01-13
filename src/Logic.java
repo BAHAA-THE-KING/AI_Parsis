@@ -5,26 +5,27 @@ import java.util.Scanner;
 
 public class Logic {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         Board initialBoard = new Board();
         Node root = new Node(null, initialBoard);
-        Structure.print(initialBoard);
-        humanTurn(root , scanner);
-
-
-//        System.out.println("Initial...");
 //        Structure.print(initialBoard);
-//        List<Move> moves = new ArrayList<>();
-//        moves.add(new Move(10,"ten",1));
-//        moves.add(new Move(1,"khal",1));
-//        List<Node> nextStates = Structure.getNextStates(root,moves,'c');
-//        for(Node node:nextStates){
-//            System.out.println("--------------------------------------------------");
-//            Structure.print(node.board);
-//        }
+//        humanTurn(root , scanner);
+
+
+        System.out.println("Initial...");
+        Structure.print(initialBoard);
+        List<Move> moves = new ArrayList<>();
+        moves.add(new Move(10,"ten",1));
+        moves.add(new Move(1,"khal",1));
+        List<Node> nextStates = Structure.getNextStates(root,moves,'c');
+        for(Node node:nextStates){
+            System.out.println("--------------------------------------------------");
+            Structure.print(node.board);
+        }
     }
 
-    public static void humanTurn(Node node , Scanner scanner) {
+    static Scanner scanner = new Scanner(System.in);
+
+    public static void humanTurn(Node node) {
         System.out.println("It's your turn");
         List<Move> humanMoves = Structure.throwShells();
 //        List<Move> humanMoves = new ArrayList<>();
@@ -36,7 +37,7 @@ public class Logic {
             //Choosing a move
             System.out.println("Yor moves :");
             int k = 1;
-            for(Move mv : humanMoves){
+            for (Move mv : humanMoves) {
                 System.out.println(k + " - [" + mv + "]");
                 k++;
             }
@@ -53,22 +54,23 @@ public class Logic {
             //checking valid pieces
             List<Integer> validPieces = new ArrayList<>();
 
-            for(int i = 0 ; i < node.board.piecesHuman.length ; i++){
-                if(Structure.canMove(node.board , 'h' , i, humanSelectedMove)){
-                    validPieces.add(i) ;
+            for (int i = 0; i < node.board.piecesHuman.length; i++) {
+                if (Structure.canMove(node.board, 'h', i, humanSelectedMove)) {
+                    validPieces.add(i);
                 }
             }
 
             //if no valid pieces
-            if(validPieces.isEmpty()){
+            if (validPieces.isEmpty()) {
                 System.out.println("you can't move any piece with the selected move");
                 continue;
-            };
+            }
+            ;
 
             //choosing a piece
-            System.out.println("The pieces you can move with [ "+humanSelectedMove+" ] :");
+            System.out.println("The pieces you can move with [ " + humanSelectedMove + " ] :");
             k = 1;
-            for(Integer piece : validPieces){
+            for (Integer piece : validPieces) {
                 System.out.println(k + " - [" + Structure.getSymbol('h', piece) + "]");
                 k++;
             }
@@ -92,11 +94,10 @@ public class Logic {
     }
 
     public static void computerTurn(Node node) {
-        //TODO fill me
-        //expectiMiniMax();
-        //humanTurn(node);
-    }
-
-    public static void expectiMiniMax() {
+        List<Move> moves = Structure.throwShells();
+        Node nextNode = new MaximizingNode(node, node.board, moves).getMaxEvaluation().key;
+        System.out.println("Computer have moves:" + moves);
+        Structure.print(nextNode.board);
+        humanTurn(nextNode);
     }
 }
