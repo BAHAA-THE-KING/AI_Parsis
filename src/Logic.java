@@ -8,7 +8,7 @@ public class Logic {
         Board initialBoard = new Board();
         Node root = new Node(null, initialBoard);
 //        Structure.print(initialBoard);
-//        humanTurn(root , scanner);
+//        humanTurn(root);
 
 
         System.out.println("Initial...");
@@ -63,6 +63,9 @@ public class Logic {
             //if no valid pieces
             if (validPieces.isEmpty()) {
                 System.out.println("you can't move any piece with the selected move");
+                if(humanMoves.size() == 1){
+                    humanMoves.remove(0);
+                }
                 continue;
             }
             ;

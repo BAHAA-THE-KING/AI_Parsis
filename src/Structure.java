@@ -278,7 +278,7 @@ public class Structure {
         int block_id = pathPlayer[nextPathIndex];
         if (board.isSafe(block_id)) {
             for (int piece : EnemyPieces) {
-                if (pathEnemy[piece] == block_id)
+                if (piece >= 0 && pathEnemy[piece] == block_id)
                     return false;
             }
         }
