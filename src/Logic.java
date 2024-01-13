@@ -15,7 +15,6 @@ public class Logic {
     public static void humanTurn(Node node) {
         System.out.println("It's your turn");
         List<Move> humanMoves = Structure.throwShells();
-
         while (!humanMoves.isEmpty()) {
             //Choosing a move
             System.out.println("Your moves :");
@@ -27,8 +26,12 @@ public class Logic {
             System.out.print("Select a move to play : ");
 
             int selectedMove = scanner.nextInt() - 1;
+            if(selectedMove >= humanMoves.size()){
+                System.out.println("wrong input, try again.");
+                continue;
+            }
+
             Move humanSelectedMove = humanMoves.get(selectedMove);
-            humanMoves.remove(selectedMove);
 
             //checking valid pieces
             List<Integer> validPieces = new ArrayList<>();
@@ -42,6 +45,9 @@ public class Logic {
             //if no valid pieces
             if (validPieces.isEmpty()) {
                 System.out.println("you can't move any piece with the selected move");
+                if(humanMoves.size() == 1){
+                    humanMoves.remove(0);
+                }
                 continue;
             }
             ;
@@ -56,6 +62,13 @@ public class Logic {
             System.out.print("Choose a piece to move : ");
 
             int selectedPiece = scanner.nextInt() - 1;
+            if(selectedPiece >= validPieces.size()){
+                System.out.println("wrong input, try again.");
+                continue;
+            }
+
+            humanMoves.remove(selectedMove);
+            Structure.applyMove(node.board , validPieces.get(selectedPiece) , humanSelectedMove , 'h');
             Structure.applyMove(node.board, validPieces.get(selectedPiece), humanSelectedMove, 'h');
 
             Structure.print(node.board);
@@ -67,13 +80,8 @@ public class Logic {
 
     public static void computerTurn(Node node) {
         List<Move> moves = Structure.throwShells();
-        System.out.println("Computer moves :");
-        int k = 1;
-        for (Move mv : moves) {
-            System.out.println(k + " - [" + mv + "]");
-            k++;
-        }
         Node nextNode = new MaximizingNode(node, node.board, moves).getMaxEvaluation(3).key;
+        System.out.println("Computer have moves:" + moves);
         Structure.print(nextNode.board);
         System.out.println("Computer turn end");
         humanTurn(nextNode);
