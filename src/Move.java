@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Move {
     int steps;
     String name;
@@ -50,5 +52,18 @@ public class Move {
     @Override
     public String toString() {
         return steps + "";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Move move = (Move) o;
+        return steps == move.steps;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(steps);
     }
 }

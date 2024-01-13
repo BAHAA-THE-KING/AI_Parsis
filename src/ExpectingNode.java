@@ -7,10 +7,11 @@ public class ExpectingNode extends Node {
         super(parent, board);
     }
 
-    Pair<Node, Double> getAverageEvaluation(String behavior) {
+    Pair<Node, Double> getAverageEvaluation(String behavior, int depth) {
         //Apply Moves On All Pieces, Resulting Expecting Nodes
         //Return The Average Evaluation Of Children With The Current Node
         //Average Evaluation Is Multiplying Each Child's Evaluation With Its Probability
+        if (depth == 0) return new Pair<>(this, 0d);
         List<Pair<List<Move>, Double>> availableMoves = new ArrayList<>(MoveCombinations.allMoves.values());
         Pair<Node, Double> avg = new Pair<>(this, 0.0);
         if (behavior.equals("max")) {
@@ -20,7 +21,7 @@ public class ExpectingNode extends Node {
             }
             for (int i = 0; i < children.size(); i++) {
                 MaximizingNode child = children.get(i);
-                avg.value += availableMoves.get(i).value * child.getMaxEvaluation().value;
+                avg.value += availableMoves.get(i).value * child.getMaxEvaluation(depth - 1).value;
             }
         } else {
             List<MinimizingNode> children = new ArrayList<>();
@@ -29,7 +30,7 @@ public class ExpectingNode extends Node {
             }
             for (int i = 0; i < children.size(); i++) {
                 MinimizingNode child = children.get(i);
-                avg.value += availableMoves.get(i).value * child.getMinEvaluation().value;
+                avg.value += availableMoves.get(i).value * child.getMinEvaluation(depth - 1).value;
             }
         }
         return avg;

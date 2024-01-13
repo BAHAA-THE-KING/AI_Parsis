@@ -360,7 +360,7 @@ public class Structure {
         return true;
     }
 
-    static float evaluate(Board board) {
+    static double evaluate(Board board) {
         float value = 0;
         //Steps Moved
         for (int posIndex : board.piecesComputer) {

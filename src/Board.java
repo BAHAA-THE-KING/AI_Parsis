@@ -4,7 +4,7 @@ public class Board {
     public static int[] pathHuman = new int[84];
     public static int[] pathComputer = new int[84];
     public static int[] safeCells = new int[8];
-    public final static char H='h',C='c';
+    public final static char H = 'h', C = 'c';
 
     static {
         //init human path
@@ -222,12 +222,12 @@ public class Board {
     int[] piecesComputer = new int[4];
 
     public Board() {
-        piecesHuman[0] = 2;
-        piecesHuman[1] = 2;
-        piecesHuman[2] = 50;
-        piecesHuman[3] = 83;
-        piecesComputer[0] = 1;
-        piecesComputer[1] = 5;
+        piecesHuman[0] = -1;
+        piecesHuman[1] = -1;
+        piecesHuman[2] = -1;
+        piecesHuman[3] = -1;
+        piecesComputer[0] = -1;
+        piecesComputer[1] = -1;
         piecesComputer[2] = -1;
         piecesComputer[3] = -1;
     }
@@ -237,7 +237,7 @@ public class Board {
         this.piecesComputer = Arrays.copyOf(board.piecesComputer, 4);
     }
 
-    public boolean isSafe(int id){
+    public boolean isSafe(int id) {
         for (int i = 0; i < safeCells.length; i++) {
             if (safeCells[i] == id) return true;
         }
