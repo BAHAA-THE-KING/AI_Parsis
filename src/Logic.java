@@ -8,20 +8,20 @@ public class Logic {
         Scanner scanner = new Scanner(System.in);
         Board initialBoard = new Board();
         Node root = new Node(null, initialBoard);
-//        Structure.print(initialBoard);
-//        humanTurn(root , scanner);
-
-
-        System.out.println("Initial...");
         Structure.print(initialBoard);
-        List<Move> moves = new ArrayList<>();
-        moves.add(new Move(10,"ten",1));
-        moves.add(new Move(1,"khal",1));
-        List<Node> nextStates = Structure.getNextStates(root,moves,'c');
-        for(Node node:nextStates){
-            System.out.println("--------------------------------------------------");
-            Structure.print(node.board);
-        }
+        humanTurn(root , scanner);
+
+
+//        System.out.println("Initial...");
+//        Structure.print(initialBoard);
+//        List<Move> moves = new ArrayList<>();
+//        moves.add(new Move(10,"ten",1));
+//        moves.add(new Move(1,"khal",1));
+//        List<Node> nextStates = Structure.getNextStates(root,moves,'c');
+//        for(Node node:nextStates){
+//            System.out.println("--------------------------------------------------");
+//            Structure.print(node.board);
+//        }
     }
 
     public static void humanTurn(Node node , Scanner scanner) {
@@ -43,8 +43,12 @@ public class Logic {
             System.out.print("Select a move to play : ");
 
             int selectedMove = scanner.nextInt() - 1;
+            if(selectedMove >= humanMoves.size()){
+                System.out.println("wrong input, try again.");
+                continue;
+            }
+
             Move humanSelectedMove = humanMoves.get(selectedMove);
-            humanMoves.remove(selectedMove);
 
             //checking valid pieces
             List<Integer> validPieces = new ArrayList<>();
@@ -71,6 +75,12 @@ public class Logic {
             System.out.print("Choose a piece to move : ");
 
             int selectedPiece = scanner.nextInt() - 1;
+            if(selectedPiece >= validPieces.size()){
+                System.out.println("wrong input, try again.");
+                continue;
+            }
+
+            humanMoves.remove(selectedMove);
             Structure.applyMove(node.board , validPieces.get(selectedPiece) , humanSelectedMove , 'h');
 
             Structure.print(node.board);
