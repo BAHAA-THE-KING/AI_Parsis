@@ -306,10 +306,8 @@ public class Structure {
         }
         List<Move> moves = new ArrayList<>();
         int ones = 0;
-
-        Random random = new Random();
         for (int i = 0; i < 6; i++) {
-            float possible = random.nextFloat(); //0.0 =>1.0
+            double possible = Math.random();
             if (possible <= 0.4) {
                 ones++;
             }
