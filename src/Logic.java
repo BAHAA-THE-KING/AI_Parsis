@@ -18,7 +18,7 @@ public class Logic {
 
     public static Node humanTurn(Node node) {
         System.out.println("It's your turn");
-        List<Move> humanMoves = Structure.throwShells();
+        List<Move> humanMoves = Structure.throwShells(5);
         while (!humanMoves.isEmpty()) {
             //Choosing a move
             System.out.println("Your moves :");
@@ -27,6 +27,20 @@ public class Logic {
                 System.out.println(k + " - [" + mv + "]");
                 k++;
             }
+
+            //if all moves are invalid
+            boolean canMove = false;
+            for (Move move : humanMoves) {
+                for (int i = 0; i < node.board.piecesHuman.length; i++) {
+                    if (Structure.canMove(node.board, 'h', i, move)) {
+                        canMove = true;
+                    }
+                }
+            }
+            if (!canMove) {
+                break;
+            }
+
             System.out.print("Select a move to play : ");
 
             int selectedMove = scanner.nextInt() - 1;
@@ -81,7 +95,7 @@ public class Logic {
     }
 
     public static Node computerTurn(Node node) {
-        List<Move> moves = Structure.throwShells();
+        List<Move> moves = Structure.throwShells(5);
         Node nextNode = new MaximizingNode(node, node.board, 'c', moves).getMaxEvaluation(1).key;
         System.out.println("Computer 1 have moves:" + moves);
         Structure.print(nextNode.board);
@@ -90,7 +104,7 @@ public class Logic {
     }
 
     public static Node computer2Turn(Node node) {
-        List<Move> moves = Structure.throwShells();
+        List<Move> moves = Structure.throwShells(5);
         Node nextNode = new MaximizingNode(node, node.board, 'h', moves).getMaxEvaluation(1).key;
         System.out.println("Computer 2 have moves:" + moves);
         Structure.print(nextNode.board);
