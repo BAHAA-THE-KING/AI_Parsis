@@ -35,9 +35,9 @@ public class Structure {
                         arr[i][j] = " ___ ";
                     //starting cells
                     else if(j == 10 && i == 7)
-                        arr[i][j] = " ⏫⏫ |";
+                        arr[i][j] = " ⬆⬆ |";
                     else if(j == 10 && i == 13)
-                        arr[i][j] = " ⏬⏬ |";
+                        arr[i][j] = " ⬇⬇ |";
                     else
                         arr[i][j] = " __ |";
                 }
@@ -299,11 +299,15 @@ public class Structure {
         return true;
     }
     static List<Move> throwShells() {
+        int count =5;
+        if(count <= 0)
+        {
+            return new ArrayList<Move>();
+        }
         List<Move> moves = new ArrayList<>();
         int ones = 0;
-        Random random = new Random();
         for (int i = 0; i < 6; i++) {
-            float possible = random.nextFloat();
+            double possible = Math.random();
             if (possible <= 0.4) {
                 ones++;
             }
@@ -326,31 +330,15 @@ public class Structure {
             moves.add(new Move(12));
         }
 
-//        P(X=k)=(kn)×pk×(1−p)n−k
-//
-//        Probability of getting all zeros (000000):
-//        P(X=6)=(66)×(0.6)6×(0.4)0P(X=6)=(66)×(0.6)6×(0.4)0 = 0.046656
-//
-//        Probability of getting five zeros and one (000001):
-//        P(X=5)=(65)×(0.6)5×(0.4)1P(X=5)=(56)×(0.6)5×(0.4)1 = 0.186624
-//
-//        Probability of getting four zeros and two ones (000011):
-//        P(X=4)=(64)×(0.6)4×(0.4)2P(X=4)=(46)×(0.6)4×(0.4)2 = 0.31104
-//
-//        Probability of getting three zeros and three ones (000111):
-//        P(X=3)=c(6,3)×(0.6)3×(0.4)3P(X=3)=(36)×(0.6)3×(0.4)3 = 0.27648
-//
-//        Probability of getting two zeros and four ones (001111):
-//        P(X=2)=(62)×(0.6)2×(0.4)4P(X=2)=(26)×(0.6)2×(0.4)4 = 0.13824
-//
-//        Probability of getting one zero and five ones (01111):
-//        P(X=1)=(61)×(0.6)1×(0.4)5P(X=1)=(16)×(0.6)1×(0.4)5 = 0.036864
-//
-//        Probability of getting all ones (111111):
-//        P(X=0)=(60)×(0.6)0×(0.4)6P(X=0)=(06)×(0.6)0×(0.4)6 = 0.004096
-
+        if (moves.get(moves.size()-1).steps == 6
+                || moves.get(moves.size()-1).steps == 12
+                || moves.get(moves.size()-1).steps == 10
+                || moves.get(moves.size()-1).steps ==25)
+        {
+            count--;
+            moves.addAll(throwShells());
+        }
         return moves;
-
     }
 
     static boolean isFinal(Node node){

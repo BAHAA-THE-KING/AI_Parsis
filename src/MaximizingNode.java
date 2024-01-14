@@ -11,6 +11,8 @@ public class MaximizingNode extends Node {
     }
 
     Pair<Node, Double> getMaxEvaluation(int depth) {
+        char pl2='h';
+        if (player=='h')pl2='c';
         //Apply Moves On All Pieces, Resulting Expecting Nodes
         //Return The Max Evaluation Of Children With The Current Node
         if (Structure.isFinal(this)){
@@ -43,14 +45,15 @@ public class MaximizingNode extends Node {
                             break;
                         }
                 }
+                if (Structure.isFinal(new Node(this, copyBoard, pl2))){
+                    break;
+                }
                 if (copyMove.size() != 0) {
                     smthWrong = true;
                     break;
                 }
             }
             if (!smthWrong) {
-                char pl2='h';
-                if (player=='h')pl2='c';
                 ExpectingNode expectingNode = new ExpectingNode(this, copyBoard, pl2);
                 Pair<Node, Double> pair = expectingNode.getAverageEvaluation("min", depth - 1);
                 children.add(new Pair<>(expectingNode, pair.value));
