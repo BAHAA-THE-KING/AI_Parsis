@@ -35,9 +35,9 @@ public class Structure {
                         arr[i][j] = " ___ ";
                     //starting cells
                     else if(j == 10 && i == 7)
-                        arr[i][j] = " ⏫⏫ |";
+                        arr[i][j] = " ⬆⬆ |";
                     else if(j == 10 && i == 13)
-                        arr[i][j] = " ⏬⏬ |";
+                        arr[i][j] = " ⬇⬇ |";
                     else
                         arr[i][j] = " __ |";
                 }
@@ -367,7 +367,7 @@ public class Structure {
         return true;
     }
 
-    static float evaluate(Board board) {
+    static double evaluate(Board board) {
         float value = 0;
         //Steps Moved
         for (int posIndex : board.piecesComputer) {

@@ -8,27 +8,9 @@ public class Logic {
         Board initialBoard = new Board();
         Node root = new Node(null, initialBoard);
         Structure.print(initialBoard);
-        System.out.println(new Position(218));
         humanTurn(root);
-        List<Move> moves = new ArrayList<>();
-        moves.add(new Move(2));
-        moves.add(new Move(10));
-        moves.add(new Move(1));
-        moves.add(new Move(25));
-        moves.add(new Move(1));
 
-//        System.out.println(MoveCombinations.getProbability(moves));
 
-//        System.out.println("Initial...");
-//        Structure.print(initialBoard);
-//        List<Move> moves = new ArrayList<>();
-//        moves.add(new Move(10,"ten",1));
-//        moves.add(new Move(1,"khal",1));
-//        List<Node> nextStates = Structure.getNextStates(root,moves,'c');
-//        for(Node node:nextStates){
-//            System.out.println("--------------------------------------------------");
-//            Structure.print(node.board);
-//        }
     }
 
     static Scanner scanner = new Scanner(System.in);
@@ -106,9 +88,15 @@ public class Logic {
 
     public static void computerTurn(Node node) {
         List<Move> moves = Structure.throwShells();
-        Node nextNode = new MaximizingNode(node, node.board, moves).getMaxEvaluation().key;
-        System.out.println("Computer have moves:" + moves);
+        System.out.println("Computer moves :");
+        int k = 1;
+        for (Move mv : moves) {
+            System.out.println(k + " - [" + mv + "]");
+            k++;
+        }
+        Node nextNode = new MaximizingNode(node, node.board, moves).getMaxEvaluation(3).key;
         Structure.print(nextNode.board);
+        System.out.println("Computer turn end");
         humanTurn(nextNode);
     }
 }
