@@ -32,7 +32,10 @@ public class MinimizingNode extends Node {
                             break;
                         }
                 }
-                if (copyMove.size() == 0) {
+                if (Structure.isFinal(new Node(this, copyBoard, pl2))){
+                    break;
+                }
+                if (copyMove.size() != 0) {
                     smthWrong = true;
                     break;
                 }
