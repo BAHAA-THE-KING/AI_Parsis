@@ -7,6 +7,7 @@ public class MoveCombinations {
 
     static {
         int[] numbers = {2, 3, 4, 0, 1, 5, 6};
+        generateAllMovesCombinations(new ArrayList<>(), numbers, false, 5);
     }
 
     static void generateAllMovesCombinations(List<Integer> current, int[] numbers, boolean finished, int count) {

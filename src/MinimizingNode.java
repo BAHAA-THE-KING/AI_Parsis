@@ -10,14 +10,15 @@ public class MinimizingNode extends Node {
         this.moveList = moveList;
     }
 
-    Pair<MinimizingNode, Double> getMinEvaluation(int depth) {
+    Pair<Node, Double> getMinEvaluation(int depth) {
         //Apply Moves On All Pieces, Resulting Expecting Nodes
         //Return The Min Evaluation Of Children With The Current Node
-        if (depth==0)return new Pair<>(this, Structure.evaluate(board));
+        if (depth == 0) return new Pair<>(this, Structure.evaluate(board));
         List<Pair<Node, Double>> children = new ArrayList<>();
         MoveCombinations.getPossiblePieceCombinations(moveList);
         for (List<List<Move>> pieces : MoveCombinations.combinations) {
             Board copyBoard = new Board(board);
+            boolean smthWrong = false;
             for (int j = 0; j < pieces.size(); j++) {
                 List<Move> moves = pieces.get(j);
                 List<Move> copyMove = new ArrayList<>(moves);
@@ -30,16 +31,22 @@ public class MinimizingNode extends Node {
                         }
                 }
                 if (copyMove.size() == 0) {
-                    ExpectingNode expectingNode = new ExpectingNode(this, copyBoard);
-                    children.add(expectingNode.getAverageEvaluation("max", depth-1));
+                    smthWrong = true;
+                    break;
                 }
             }
+            if (!smthWrong) {
+                ExpectingNode expectingNode = new ExpectingNode(this, copyBoard);
+                Pair<Node, Double> pair = expectingNode.getAverageEvaluation("max", depth - 1);
+                children.add(new Pair<>(expectingNode, pair.value));
+            }
         }
-
-        double min = Double.MAX_VALUE;
+        Pair<Node, Double> min = new Pair<>(this, Double.MAX_VALUE);
         for (var child : children) {
-            min = Math.min(min, child.value);
+            if (min.value > child.value) {
+                min = child;
+            }
         }
-        return new Pair<>(this, min);
+        return min;
     }
 }
