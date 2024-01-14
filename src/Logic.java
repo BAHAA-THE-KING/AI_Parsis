@@ -83,7 +83,7 @@ public class Logic {
         }
 
         System.out.println("Your turn end");
-        //computerTurn(node);
+        computerTurn(node);
     }
 
     public static void computerTurn(Node node) {

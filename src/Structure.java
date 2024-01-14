@@ -240,7 +240,12 @@ public class Structure {
             board.piecesComputer[pieceIndex] += move.steps;
             int computer = Board.pathComputer[board.piecesComputer[pieceIndex]];
             for (int i = 0; i < 4; i++) {
+                int pathIndex = board.piecesHuman[i];
+                if(pathIndex < 0)
+                    continue;
+
                 int human = Board.pathHuman[board.piecesHuman[i]];
+
                 if(human == computer)
                     board.piecesHuman[i] = -1;
             }
