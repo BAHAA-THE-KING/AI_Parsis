@@ -188,6 +188,8 @@ public class Structure {
 
     static List<Node> getNextStates(Node node, List<Move> moves, char player) {
         Board board = node.board;
+        char pl2='h';
+        if (player=='h')pl2='c';
         int[]pieces = player=='h'?board.piecesHuman:board.piecesComputer;
         List<Node> newNodes=new ArrayList<>();
         List<Map<Integer,List<Integer>>> combinations = MoveCombinations.generate(moves.size());
@@ -213,7 +215,7 @@ public class Structure {
                 }
             }
             if(validMove){
-                newNodes.add(new Node(node,copyBoard));
+                newNodes.add(new Node(node,copyBoard,pl2));
             }
         }
 //
@@ -370,7 +372,7 @@ public class Structure {
         return true;
     }
 
-    static double evaluate(Board board) {
+    static double evaluate(Board board, char player) {
         float value = 0;
         //Steps Moved
         for (int posIndex : board.piecesComputer) {
@@ -390,9 +392,9 @@ public class Structure {
                     value += 10;
                 else if (diff == -1 || diff == -2 || diff == -3 || diff == -4 || diff == -6 || diff == -10 || diff == -11 || diff == -12 || diff == -25 || diff == -26)
                     value -= 10;
-
             }
         }
+        if (player=='h')value=-value;
         return value;
     }
 }

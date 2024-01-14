@@ -5,14 +5,18 @@ import java.util.Scanner;
 public class Logic {
     public static void main(String[] args) {
         Board initialBoard = new Board();
-        Node root = new Node(null, initialBoard);
+        Node root = new Node(null, initialBoard, 'h');
         Structure.print(initialBoard);
-        humanTurn(root);
+        Node node = root;
+        while (!Structure.isFinal(node)) {
+            node = computer2Turn(node);
+            if (!Structure.isFinal(node)) node = computerTurn(node);
+        }
     }
 
     static Scanner scanner = new Scanner(System.in);
 
-    public static void humanTurn(Node node) {
+    public static Node humanTurn(Node node) {
         System.out.println("It's your turn");
         List<Move> humanMoves = Structure.throwShells();
         while (!humanMoves.isEmpty()) {
@@ -74,15 +78,24 @@ public class Logic {
         }
 
         System.out.println("Your turn end");
-        computerTurn(node);
+        return node;
     }
 
-    public static void computerTurn(Node node) {
+    public static Node computerTurn(Node node) {
         List<Move> moves = Structure.throwShells();
-        Node nextNode = new MaximizingNode(node, node.board, moves).getMaxEvaluation(1).key;
-        System.out.println("Computer have moves:" + moves);
+        Node nextNode = new MaximizingNode(node, node.board, 'c', moves).getMaxEvaluation(1).key;
+        System.out.println("Computer 1 have moves:" + moves);
         Structure.print(nextNode.board);
-        System.out.println("Computer turn end");
-        humanTurn(nextNode);
+        System.out.println("Computer 1 turn end");
+        return nextNode;
+    }
+
+    public static Node computer2Turn(Node node) {
+        List<Move> moves = Structure.throwShells();
+        Node nextNode = new MaximizingNode(node, node.board, 'h', moves).getMaxEvaluation(1).key;
+        System.out.println("Computer 2 have moves:" + moves);
+        Structure.print(nextNode.board);
+        System.out.println("Computer 2 turn end");
+        return nextNode;
     }
 }

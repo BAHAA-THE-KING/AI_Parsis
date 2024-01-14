@@ -5,15 +5,17 @@ public class MinimizingNode extends Node {
     List<Move> moveList;
 
     //This Node Will Get List<Move>, And Apply It On Every Pieces, Then Take The Min Evaluation Of Them
-    public MinimizingNode(Node parent, Board board, List<Move> moveList) {
-        super(parent, board);
+    public MinimizingNode(Node parent, Board board, char player, List<Move> moveList) {
+        super(parent, board,player);
         this.moveList = moveList;
     }
 
     Pair<Node, Double> getMinEvaluation(int depth) {
+        char pl2='h';
+        if (player=='h')pl2='c';
         //Apply Moves On All Pieces, Resulting Expecting Nodes
         //Return The Min Evaluation Of Children With The Current Node
-        if (depth == 0) return new Pair<>(this, Structure.evaluate(board));
+        if (depth == 0) return new Pair<>(this, Structure.evaluate(board, player));
         List<Pair<Node, Double>> children = new ArrayList<>();
         MoveCombinations.getPossiblePieceCombinations(moveList);
         for (List<List<Move>> pieces : MoveCombinations.combinations) {
@@ -24,8 +26,8 @@ public class MinimizingNode extends Node {
                 List<Move> copyMove = new ArrayList<>(moves);
                 for (Move move : moves) {
                     for (int i = 0; i < copyMove.size(); i++)
-                        if (Structure.canMove(copyBoard, 'h', j, copyMove.get(i))) {
-                            Structure.applyMove(copyBoard, j, copyMove.get(i), 'h');
+                        if (Structure.canMove(copyBoard, pl2, j, copyMove.get(i))) {
+                            Structure.applyMove(copyBoard, j, copyMove.get(i), pl2);
                             copyMove.remove(i);
                             break;
                         }
@@ -36,7 +38,7 @@ public class MinimizingNode extends Node {
                 }
             }
             if (!smthWrong) {
-                ExpectingNode expectingNode = new ExpectingNode(this, copyBoard);
+                ExpectingNode expectingNode = new ExpectingNode(this, copyBoard, pl2);
                 Pair<Node, Double> pair = expectingNode.getAverageEvaluation("max", depth - 1);
                 children.add(new Pair<>(expectingNode, pair.value));
             }

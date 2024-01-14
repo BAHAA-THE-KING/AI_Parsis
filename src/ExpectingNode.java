@@ -3,8 +3,8 @@ import java.util.List;
 
 public class ExpectingNode extends Node {
     //This Node Will Get List<Move>, And Apply It On Every Pieces, Then Take The Max Evaluation Of Them
-    public ExpectingNode(Node parent, Board board) {
-        super(parent, board);
+    public ExpectingNode(Node parent, Board board, char player) {
+        super(parent, board, player);
     }
 
     Pair<Node, Double> getAverageEvaluation(String behavior, int depth) {
@@ -24,7 +24,7 @@ public class ExpectingNode extends Node {
         if (behavior.equals("max")) {
             List<MaximizingNode> children = new ArrayList<>();
             for (var move : availableMoves) {
-                children.add(new MaximizingNode(parent, board, move.key));
+                children.add(new MaximizingNode(parent, board, player, move.key));
             }
             for (int i = 0; i < children.size(); i++) {
                 MaximizingNode child = children.get(i);
@@ -33,7 +33,7 @@ public class ExpectingNode extends Node {
         } else {
             List<MinimizingNode> children = new ArrayList<>();
             for (var move : availableMoves) {
-                children.add(new MinimizingNode(parent, board, move.key));
+                children.add(new MinimizingNode(parent, board, player, move.key));
             }
             for (int i = 0; i < children.size(); i++) {
                 MinimizingNode child = children.get(i);
