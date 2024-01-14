@@ -84,18 +84,18 @@ public class Logic {
     public static Node computerTurn(Node node) {
         List<Move> moves = Structure.throwShells();
         Node nextNode = new MaximizingNode(node, node.board, 'c', moves).getMaxEvaluation(1).key;
-        System.out.println("Computer 1 have moves:" + moves);
+        System.out.println("Faryal have moves:" + moves);
         Structure.print(nextNode.board);
-        System.out.println("Computer 1 turn end");
+        System.out.println("Faryal turn end");
         return nextNode;
     }
 
     public static Node computer2Turn(Node node) {
         List<Move> moves = Structure.throwShells();
         Node nextNode = new MaximizingNode(node, node.board, 'h', moves).getMaxEvaluation(1).key;
-        System.out.println("Computer 2 have moves:" + moves);
+        System.out.println("Umm Zaki have moves:" + moves);
         Structure.print(nextNode.board);
-        System.out.println("Computer 2 turn end");
+        System.out.println("Umm Zaki turn end");
         return nextNode;
     }
 }
