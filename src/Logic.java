@@ -7,6 +7,7 @@ public class Logic {
         Board initialBoard = new Board();
         Node root = new Node(null, initialBoard);
         Structure.print(initialBoard);
+        System.out.println(Double.NEGATIVE_INFINITY);
         humanTurn(root);
     }
 
@@ -23,6 +24,8 @@ public class Logic {
                 System.out.println(k + " - [" + mv + "]");
                 k++;
             }
+
+
             System.out.print("Select a move to play : ");
 
             int selectedMove = scanner.nextInt() - 1;
@@ -69,7 +72,6 @@ public class Logic {
 
             humanMoves.remove(selectedMove);
             Structure.applyMove(node.board , validPieces.get(selectedPiece) , humanSelectedMove , 'h');
-            Structure.applyMove(node.board, validPieces.get(selectedPiece), humanSelectedMove, 'h');
 
             Structure.print(node.board);
         }

@@ -238,6 +238,7 @@ public class Structure {
     static void applyMove(Board board, int pieceIndex, Move move, char player) {
         if (player == 'c') {
             board.piecesComputer[pieceIndex] += move.steps;
+            //kill enemy piece if in the same index
             int computer = Board.pathComputer[board.piecesComputer[pieceIndex]];
             for (int i = 0; i < 4; i++) {
                 int human = Board.pathHuman[board.piecesHuman[i]];
@@ -246,13 +247,12 @@ public class Structure {
             }
         } else {
             board.piecesHuman[pieceIndex] += move.steps;
+            //kill enemy piece if in the same index
             int human = Board.pathHuman[board.piecesHuman[pieceIndex]];
             for (int i = 0; i < 4; i++) {
-
                 int pathIndex = board.piecesComputer[i];
                 if(pathIndex < 0)
                     continue;
-
                 int computer = Board.pathComputer[pathIndex];
                 if(human == computer)
                     board.piecesComputer[i] = -1;
