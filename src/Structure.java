@@ -241,7 +241,10 @@ public class Structure {
             //kill enemy piece if in the same index
             int computer = Board.pathComputer[board.piecesComputer[pieceIndex]];
             for (int i = 0; i < 4; i++) {
-                int human = Board.pathHuman[board.piecesHuman[i]];
+                int pathIndex = board.piecesHuman[i];
+                if(pathIndex < 0)
+                    continue;
+                int human = Board.pathHuman[pathIndex];
                 if(human == computer)
                     board.piecesHuman[i] = -1;
             }
@@ -360,7 +363,7 @@ public class Structure {
         int[]path=player=='h'?Board.pathHuman:Board.pathComputer;
         int finishLineId=player=='h'?199:161;
         for(int piece:pieces){
-            if(path[piece]!=finishLineId){
+            if (piece == -1 || path[piece] != finishLineId) {
                 return false;
             }
         }
