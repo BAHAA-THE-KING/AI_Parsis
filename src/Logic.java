@@ -9,7 +9,7 @@ public class Logic {
         Structure.print(initialBoard);
         Node node = root;
         while (!Structure.isFinal(node)) {
-            node = computer2Turn(node);
+            node = humanTurn(node);
             if (!Structure.isFinal(node)) node = computerTurn(node);
         }
     }
@@ -54,7 +54,6 @@ public class Logic {
                 }
                 continue;
             }
-            ;
 
             //choosing a piece
             System.out.println("The pieces you can move with [ " + humanSelectedMove + " ] :");
