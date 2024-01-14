@@ -372,12 +372,24 @@ public class Structure {
         float value = 0;
         //Steps Moved
         for (int posIndex : board.piecesComputer) {
-            if (posIndex == -1) value -= 10;
-            else value += posIndex + 1;
+            if (posIndex == -1) {
+                value -= 10;
+            }else{
+                value += posIndex + 1;
+                //is it in a safe place?
+                if(board.isSafe(posIndex))
+                    value += 10;
+            }
         }
         for (int posIndex : board.piecesHuman) {
-            if (posIndex == -1) value += 10;
-            else value -= posIndex + 1;
+            if (posIndex == -1) {
+                value += 10;
+            }else{
+                value -= posIndex + 1;
+                //is it in a safe place?
+                if(board.isSafe(posIndex))
+                    value -= 10;
+            }
         }
         //Is Someone Behind You ?
         for (int posIndexC : board.piecesComputer) {
